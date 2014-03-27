@@ -11,7 +11,7 @@ class Kayttaja {
         $this->Tunnus = $tunnus;
         $this->Salasana = $salasana;
     }
-    
+
     public function getId() {
         return $this->Id;
     }
@@ -23,7 +23,7 @@ class Kayttaja {
     public function getSalasana() {
         return $this->Salasana;
     }
-    
+
     public function setId($id) {
         $this->Id = $id;
     }
@@ -48,12 +48,31 @@ class Kayttaja {
             $kayttaja->setId($tulos->id);
             $kayttaja->setTunnus($tulos->tunnus);
             $kayttaja->setSalasana($tulos->salasana);
-            //$array[] = $muuttuja; lisää muuttujan arrayn perään. 
-            //Se vastaa melko suoraan ArrayList:in add-metodia.
+            
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
     }
 
+    public static function etsiKayttajaTunnuksilla($kayttaja, $salasana) {
+        require_once "libs/tietokantayhteys.php";
+        $sql = "SELECT * from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
+        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja, $salasana));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        } else {
+            $kayttaja = new Kayttaja();
+            $kayttaja->setId($tulos->id);
+            $kayttaja->setTunnus($tulos->tunnus);
+            $kayttaja->setSalasana($tulos->salasana);
+
+            return $kayttaja;
+        }
+    }
+
 }
+
 ?>

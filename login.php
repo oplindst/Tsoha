@@ -1,26 +1,36 @@
 <?php
-
-$sivu = 'kirjautuminen.php';
-
-//Pohjatiedosto huolehtii sekä HTML-rungon, 
-//että oikean näkymän näyttämisestä
-require 'views/pohja.php';
 require 'libs/functions.php';
+$sivu = 'kirjautuminen.php';
+require 'libs/models/kayttaja.php';
 
-if (empty($_POST["tunnus"]) || empty($_POST["salasana"])) {
-    /* Käytetään omassa kirjastotiedostossa määriteltyä näkymännäyttöfunktioita */
-    naytaNakyma("login");
-    exit(); // Lopetetaan suoritus tähän. Kutsun voi sijoittaa myös naytaNakyma-funktioon, niin sitä ei tarvitse toistaa joka paikassa
+if (empty($_POST["salasana"]) && empty($_POST["tunnus"])) {
+    
+    naytaNakyma($sivu);
+    
 }
 
-$kayttaja = $_POST["tunnus"];
+if (empty($_POST["tunnus"]) && !empty($_POST["salasana"])) {
+    
+    naytaNakyma($sivu, array('virhe' => "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta."));
+    
+}
+
+$tunnus = $_POST["tunnus"];
+
+if (empty($_POST["salasana"]) && !empty($_POST["tunnus"])) {
+    
+    naytaNakyma($sivu, array('virhe' => "Kirjautuminen epäonnistui! Et antanut salasanaa."));
+    
+}
+
 $salasana = $_POST["salasana"];
 
-/* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-if ("O-P" == $kayttaja && "bulbasaur" == $salasana) {
-    /* Jos tunnus on oikea, ohjataan käyttäjä sopivalla HTTP-otsakkeella kissalistaan. */
+$kayttaja = Kayttaja::etsiKayttajaTunnuksilla($tunnus, $salasana);
+
+if (!$kayttaja == null) {
+    $_SESSION['kirjautunut'] = $kayttaja;
     header('Location: etusivu.php');
 } else {
     /* Väärän tunnuksen syöttänyt saa eteensä kirjautumislomakkeen. */
-    naytaNakyma("login");
+    naytaNakyma($sivu, array('kayttaja' => $tunnus, 'virhe' => "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.", request));
 }
