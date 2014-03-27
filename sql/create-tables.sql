@@ -23,11 +23,12 @@ BAtk int,
 BDef int,
 BSpAtk int,
 BSpDef int,
-BSpd int,
+BSpd int
 );
 
 CREATE TABLE Kayttaja
 (
+Id int,
 Tunnus varchar(15),
 Salasana varchar(15)
 );
