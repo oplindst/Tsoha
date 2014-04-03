@@ -42,7 +42,17 @@ class Pokemonlaji {
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $laji = new Pokemonlaji($tulos->ID, $tulos->Nimi, $tulos->Type1,$tulos->Type2,$tulos->BHP,$tulos->BAtk,$tulos->BDef,$tulos->BSpAtk,$tulos->BSpDef,$tulos->BSpd);
+            $laji = new Pokemonlaji();
+            $laji->setId($tulos->id);
+            $laji->setName($tulos->nimi);
+            $laji->setType1($tulos->type1);
+            $laji->setType2($tulos->type2);
+            $laji->setHP($tulos->bhp);
+            $laji->setAtk($tulos->batk);
+            $laji->setDef($tulos->bdef);
+            $laji->setSpAtk($tulos->bspatk);
+            $laji->setSpDef($tulos->bspdef);
+            $laji->setSpd($tulos->bspd);
             
             $tulokset[] = $laji;
         }
@@ -66,6 +76,78 @@ class Pokemonlaji {
 
             return $kayttaja;
         }
+    }
+    
+    public function getName() {
+        return $this->Nimi;
+    }
+    
+    public function setName($nimi) {
+        $this->Nimi = $nimi;
+    }
+    
+    public function getType1() {
+        return $this->Type1;
+    }
+    
+    public function setType1($type) {
+        $this->Type1 = $type;
+    }
+    
+    public function getType2() {
+        return $this->Type2;
+    }
+    
+    public function setType2($type) {
+        $this->Type2 = $type;
+    }
+    
+    public function getHP() {
+        return $this->BHP;
+    }
+    
+    public function setHP($hp) {
+        $this->BHP = $hp;
+    }
+    
+    public function getAtk() {
+        return $this->BAtk;
+    }
+    
+    public function setAtk($atk) {
+        $this->BAtk = $atk;
+    }
+    
+    public function getDef() {
+        return $this->BDef;
+    }
+    
+    public function setDef($def) {
+        $this->BDef = $def;
+    }
+    
+    public function getSpAtk() {
+        return $this->BSpAtk;
+    }
+    
+    public function setSpAtk($spatk) {
+        $this->BSpAtk = $spatk;
+    }
+    
+    public function getSpDef() {
+        return $this->BSpDef;
+    }
+    
+    public function setSpDef($spdef) {
+        $this->BSpDef = $spdef;
+    }
+    
+    public function getSpd() {
+        return $this->BSpd;
+    }
+    
+    public function setSpd($spd) {
+        $this->BSpd = $spd;
     }
 
 }

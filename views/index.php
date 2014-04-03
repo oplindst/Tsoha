@@ -1,7 +1,7 @@
 <h1>Pokemon-tietokanta</h1>
 
 
-        <form class="form-horizontal" role="form" action="kirjautuminen.html" method="POST">
+        <form class="form-horizontal" role="form" action="ulos.php" method="POST">
             <div class="form-group">
                 <div class="col-md-offset-8 col-md-10">
                     <button type="submit" class="btn btn-link">Kirjaudu ulos</button>
@@ -49,18 +49,18 @@
                 
                 <tbody>
                     <?php foreach($data->pokemonit as $pokemon): ?>
-                    <h1> joo </h1>
+                    
                     <tr>
                         <td><?php echo $pokemon->getId() ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
-                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo $pokemon->getName() ?></td>
+                        <td><?php echo $pokemon->getType1() ?></td>
+                        <td><?php echo $pokemon->getType2() ?></td>
+                        <td><?php echo $pokemon->getHP() ?></td>
+                        <td><?php echo $pokemon->getAtk() ?></td>
+                        <td><?php echo $pokemon->getDef() ?></td>
+                        <td><?php echo $pokemon->getSpAtk() ?></td>
+                        <td><?php echo $pokemon->getSpDef() ?></td>
+                        <td><?php echo $pokemon->getSpd() ?></td>
                     </tr>
                     
                     <?php endforeach; ?>
