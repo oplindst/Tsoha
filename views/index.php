@@ -37,22 +37,33 @@
                         <th>Nimi</th>
                         <th>Tyyppi1</th>
                         <th>Tyyppi2</th>
+                        <th>Base HP</th>
+                        <th>Base Attack</th>
+                        <th>Base Defense</th>
+                        <th>Base Sp. Attack</th>
+                        <th>Base Sp. Defense</th>
+                        <th>Base Speed</th>
+                        
                     </tr>
                 </thead>
+                
                 <tbody>
+                    <?php foreach($data->pokemonit as $pokemon): ?>
+                    <h1> joo </h1>
                     <tr>
-                        <td>3</td>
-                        <td>Venusaur</td>
-                        <td>Grass</td>
-                        <td>Poison</td>
+                        <td><?php echo $pokemon->getId() ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
+                        <td><?php echo 'joo' ?></td>
                     </tr>
-                    <tr>
-                        <td>25</td>
-                        <td>Pikachu</td>
-                        <td>Electric</td>
-                        <td>-</td>
-                    </tr>
-
+                    
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

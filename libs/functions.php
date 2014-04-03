@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-require_once "libs/tietokantayhteys.php";
-
 function haeTietokannasta($sql) {
+    require_once "libs/tietokantayhteys.php";
     $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
     $kysely->execute();
     return $kysely;
