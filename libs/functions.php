@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+require_once "libs/tietokantayhteys.php";
+
+function haeTietokannasta($sql) {
+    $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+    $kysely->execute();
+    return $kysely;
+}
+
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     require 'views/pohja.php';

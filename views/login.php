@@ -1,18 +1,7 @@
-<!DOCTYPE html>
 
-<html>
-    <head>
-        <link href="../css/bootstrap.css" rel="stylesheet">
-        <link href="../css/bootstrap-theme.css" rel="stylesheet">
-        <link href="../css/main.css" rel="stylesheet">
-        <title>Pokemon-tietokanta</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-    </head>
-    <body>
         <div class="container">
             <h1>Kirjautuminen</h1>
-            <form class="form-horizontal" role="form" action="login.php" method="POST">
+            <form class="form-horizontal" role="form" action="loginControl.php" method="POST">
                 <div class="form-group">
                     <label for="inputTunnus" class="col-md-2 control-label">Käyttäjätunnus</label>
                     <div class="col-md-10">
@@ -32,7 +21,5 @@
                 </div>
             </form>
         </div>
-    </body>
-</html>
 
 

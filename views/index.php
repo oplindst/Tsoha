@@ -1,0 +1,59 @@
+<h1>Pokemon-tietokanta</h1>
+
+
+        <form class="form-horizontal" role="form" action="kirjautuminen.html" method="POST">
+            <div class="form-group">
+                <div class="col-md-offset-8 col-md-10">
+                    <button type="submit" class="btn btn-link">Kirjaudu ulos</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <form class="form-horizontal" role="form" action="omat.html" method="POST">
+                <div class="form-group">
+                    <div class="col-md-offset-5">
+                        <button type="submit" class="btn btn-primary">Omat Pokemonit</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        
+        <div class="container">
+            <h1>Yleistä tietoa</h1>
+            
+            <form class="form-horizontal" role="form" action="haku2.html" method="POST">
+                <div class="form-group">
+                    <div class="col-md-offset-5 col-md-10">
+                        <button type="submit" class="btn btn-primary">Haku</button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nimi</th>
+                        <th>Tyyppi1</th>
+                        <th>Tyyppi2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3</td>
+                        <td>Venusaur</td>
+                        <td>Grass</td>
+                        <td>Poison</td>
+                    </tr>
+                    <tr>
+                        <td>25</td>
+                        <td>Pikachu</td>
+                        <td>Electric</td>
+                        <td>-</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+

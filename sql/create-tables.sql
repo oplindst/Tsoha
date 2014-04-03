@@ -14,16 +14,16 @@ omistaja varchar(15)
 
 CREATE TABLE Pokemonlaji
 (
-ID int,
-Nimi varchar(15),
-Type1 varchar(10),
+ID int primary key,
+Nimi varchar(15) NOT NULL,
+Type1 varchar(10) NOT NULL,
 Type2 varchar(10),
-BHP int,
-BAtk int,
-BDef int,
-BSpAtk int,
-BSpDef int,
-BSpd int
+BHP int NOT NULL,
+BAtk int NOT NULL,
+BDef int NOT NULL,
+BSpAtk int NOT NULL,
+BSpDef int NOT NULL,
+BSpd int NOT NULL
 );
 
 CREATE TABLE Kayttaja
