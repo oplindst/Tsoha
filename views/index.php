@@ -21,14 +21,14 @@
 <div class="container">
     <h1>Yleistä tietoa</h1>
 
-    <form class="form-horizontal" role="form" action="haku2.php" method="POST">
+    <form class="form-horizontal" role="form" action="lomake2.php?toiminto=haku" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">
                 <button type="submit" class="btn btn-primary">Haku</button>
             </div>
         </div>
     </form>
-    <form class="form-horizontal" role="form" action="lisaa2.php" method="POST">
+    <form class="form-horizontal" role="form" action="lomake2.php?toiminto=lisaa" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">
                 <button type="submit" class="btn btn-primary">Lisää</button>
@@ -49,6 +49,8 @@
                 <th>Base Sp. Attack</th>
                 <th>Base Sp. Defense</th>
                 <th>Base Speed</th>
+                <th>Muokkaa</th>
+                <th>Poista</th>
 
             </tr>
         </thead>
@@ -67,6 +69,8 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
+                    <td><a href="lomake2.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
+                    <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
                 </tr>
 
             <?php endforeach; ?>

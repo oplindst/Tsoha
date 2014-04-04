@@ -35,6 +35,32 @@ class Pokemonlaji {
     public function setId($id) {
         $this->ID = $id;
     }
+    
+    public static function etsiPokemon($id) {
+        require_once "libs/tietokantayhteys.php";
+        $sql = "select * from Pokemonlaji where id = ?";
+        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        $tulokset = array();
+        
+        
+        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $laji = new Pokemonlaji();
+            $laji->setId($tulos->id);
+            $laji->setName($tulos->nimi);
+            $laji->setType1($tulos->type1);
+            $laji->setType2($tulos->type2);
+            $laji->setHP($tulos->bhp);
+            $laji->setAtk($tulos->batk);
+            $laji->setDef($tulos->bdef);
+            $laji->setSpAtk($tulos->bspatk);
+            $laji->setSpDef($tulos->bspdef);
+            $laji->setSpd($tulos->bspd);
+            $tulokset[] = $laji;
+        }
+        echo 'joo';
+        return $tulokset[0];
+    }
 
     public static function etsiKaikkiPokemonit() {
 
@@ -63,9 +89,14 @@ class Pokemonlaji {
         require_once "libs/tietokantayhteys.php";
         $sql = "Insert into Pokemonlaji Values (?,?,?,?,?,?,?,?,?,?)";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        echo 'joo';
         $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd));
-        echo 'joo';
+    }
+    
+    public static function poistaKannasta($id) {
+        require_once "libs/tietokantayhteys.php";
+        $sql = "DELETE FROM Pokemonlaji WHERE id = ?";
+        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
     }
     
     public function getName() {
