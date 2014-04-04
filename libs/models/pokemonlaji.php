@@ -31,44 +31,120 @@ class Pokemonlaji {
     public function getId() {
         return $this->ID;
     }
-    
+
     public function setId($id) {
         $this->ID = $id;
     }
 
     public static function etsiKaikkiPokemonit() {
+
         $sql = "select * from Pokemonlaji";
-        $kysely = haeTietokannasta($sql);
+        $kysely = kaytaTietokantaa($sql);
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $laji = new Pokemonlaji($tulos->ID, $tulos->Nimi, $tulos->Type1,$tulos->Type2,$tulos->BHP,$tulos->BAtk,$tulos->BDef,$tulos->BSpAtk,$tulos->BSpDef,$tulos->BSpd);
-            
+            $laji = new Pokemonlaji();
+            $laji->setId($tulos->id);
+            $laji->setName($tulos->nimi);
+            $laji->setType1($tulos->type1);
+            $laji->setType2($tulos->type2);
+            $laji->setHP($tulos->bhp);
+            $laji->setAtk($tulos->batk);
+            $laji->setDef($tulos->bdef);
+            $laji->setSpAtk($tulos->bspatk);
+            $laji->setSpDef($tulos->bspdef);
+            $laji->setSpd($tulos->bspd);
+
             $tulokset[] = $laji;
         }
         return $tulokset;
     }
 
-    public static function etsiKayttajaTunnuksilla($kayttaja, $salasana) {
+    public function lisaaKantaan() {
         require_once "libs/tietokantayhteys.php";
-        $sql = "SELECT * from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
+        $sql = "Insert into Pokemonlaji Values (?,?,?,?,?,?,?,?,?,?)";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja, $salasana));
+        echo 'joo';
+        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd));
+        echo 'joo';
+    }
 
-        $tulos = $kysely->fetchObject();
-        if ($tulos == null) {
-            return null;
-        } else {
-            $kayttaja = new Kayttaja();
-            $kayttaja->setId($tulos->id);
-            $kayttaja->setTunnus($tulos->tunnus);
-            $kayttaja->setSalasana($tulos->salasana);
+    public static function etsiPokemon() {
+        
+    }
 
-            return $kayttaja;
-        }
+    public function getName() {
+        return $this->Nimi;
+    }
+
+    public function setName($nimi) {
+        $this->Nimi = $nimi;
+    }
+
+    public function getType1() {
+        return $this->Type1;
+    }
+
+    public function setType1($type) {
+        $this->Type1 = $type;
+    }
+
+    public function getType2() {
+        return $this->Type2;
+    }
+
+    public function setType2($type) {
+        $this->Type2 = $type;
+    }
+
+    public function getHP() {
+        return $this->BHP;
+    }
+
+    public function setHP($hp) {
+        $this->BHP = $hp;
+    }
+
+    public function getAtk() {
+        return $this->BAtk;
+    }
+
+    public function setAtk($atk) {
+        $this->BAtk = $atk;
+    }
+
+    public function getDef() {
+        return $this->BDef;
+    }
+
+    public function setDef($def) {
+        $this->BDef = $def;
+    }
+
+    public function getSpAtk() {
+        return $this->BSpAtk;
+    }
+
+    public function setSpAtk($spatk) {
+        $this->BSpAtk = $spatk;
+    }
+
+    public function getSpDef() {
+        return $this->BSpDef;
+    }
+
+    public function setSpDef($spdef) {
+        $this->BSpDef = $spdef;
+    }
+
+    public function getSpd() {
+        return $this->BSpd;
+    }
+
+    public function setSpd($spd) {
+        $this->BSpd = $spd;
     }
 
 }
-
 ?>
 

@@ -37,10 +37,8 @@ class Kayttaja {
     }
 
     public static function etsiKaikkiKayttajat() {
-        require_once "libs/tietokantayhteys.php";
         $sql = "select id, tunnus, salasana from kayttaja";
-        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute();
+        $kysely = kaytaTietokantaa($sql);
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
