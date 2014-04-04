@@ -54,7 +54,11 @@ class Pokemonlaji {
             $laji->setSpAtk($tulos->bspatk);
             $laji->setSpDef($tulos->bspdef);
             $laji->setSpd($tulos->bspd);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 903ff75680c5c4ad256f665d5082dad55cd50c86
             $tulokset[] = $laji;
         }
         return $tulokset;
@@ -67,6 +71,78 @@ class Pokemonlaji {
         echo 'joo';
         $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd));
         echo 'joo';
+    }
+    
+    public function getName() {
+        return $this->Nimi;
+    }
+    
+    public function setName($nimi) {
+        $this->Nimi = $nimi;
+    }
+    
+    public function getType1() {
+        return $this->Type1;
+    }
+    
+    public function setType1($type) {
+        $this->Type1 = $type;
+    }
+    
+    public function getType2() {
+        return $this->Type2;
+    }
+    
+    public function setType2($type) {
+        $this->Type2 = $type;
+    }
+    
+    public function getHP() {
+        return $this->BHP;
+    }
+    
+    public function setHP($hp) {
+        $this->BHP = $hp;
+    }
+    
+    public function getAtk() {
+        return $this->BAtk;
+    }
+    
+    public function setAtk($atk) {
+        $this->BAtk = $atk;
+    }
+    
+    public function getDef() {
+        return $this->BDef;
+    }
+    
+    public function setDef($def) {
+        $this->BDef = $def;
+    }
+    
+    public function getSpAtk() {
+        return $this->BSpAtk;
+    }
+    
+    public function setSpAtk($spatk) {
+        $this->BSpAtk = $spatk;
+    }
+    
+    public function getSpDef() {
+        return $this->BSpDef;
+    }
+    
+    public function setSpDef($spdef) {
+        $this->BSpDef = $spdef;
+    }
+    
+    public function getSpd() {
+        return $this->BSpd;
+    }
+    
+    public function setSpd($spd) {
+        $this->BSpd = $spd;
     }
 
     public static function etsiPokemon() {
