@@ -1,4 +1,5 @@
 <?php
+
 require 'libs/functions.php';
 require "libs/models/pokemonlaji.php";
 
@@ -24,6 +25,21 @@ $lisattava->setDef($def);
 $lisattava->setSpAtk($spatk);
 $lisattava->setSpDef($spdef);
 $lisattava->setSpd($spd);
-$lisattava->lisaaKantaan();
-echo 'joo';
+
+$toiminto = $_POST["toiminto"];
+
+if ($toiminto === 'haku') {
+    $otsikko = 'Haku';
+    $submit = 'Hae';
+}
+
+if ($toiminto === 'Tallenna') {
+    $vanhaid = $_POST["vanhaid"];
+    $lisattava->paivita($vanhaid);
+}
+
+if ($toiminto === 'Lisää') {
+    $lisattava->lisaaKantaan();
+}
+
 header('Location: index.php');

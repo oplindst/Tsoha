@@ -58,7 +58,6 @@ class Pokemonlaji {
             $laji->setSpd($tulos->bspd);
             $tulokset[] = $laji;
         }
-        echo 'joo';
         return $tulokset[0];
     }
 
@@ -97,6 +96,13 @@ class Pokemonlaji {
         $sql = "DELETE FROM Pokemonlaji WHERE id = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
+    }
+    
+    public function paivita($vanhaid) {
+        require_once "libs/tietokantayhteys.php";
+        $sql = "UPDATE Pokemonlaji SET ID = ?, Nimi = ?, Type1 = ?, Type2 = ?, BHP = ?, BAtk = ?, BDef = ?, BSpAtk = ?, BSpDef = ?, BSpd = ? WHERE ID = ?";
+        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd, $vanhaid));
     }
     
     public function getName() {
