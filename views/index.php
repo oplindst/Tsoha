@@ -21,7 +21,7 @@
 <div class="container">
     <h1>Yleistä tietoa</h1>
 
-    <form class="form-horizontal" role="form" action="lomake2.php?toiminto=haku" method="POST">
+    <form class="form-horizontal" role="form" action="lajiHakulomake.php" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">
                 <button type="submit" class="btn btn-primary">Haku</button>

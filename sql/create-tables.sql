@@ -1,23 +1,6 @@
-CREATE TABLE Pokemon
-(
-id SERIAL PRIMARY KEY,
-ID int references Pokemonlaji(ID) ON DELETE cascade
-                                  ON UPDATE cascade
-Nimi varchar(15),
-Taso int,
-HP int,
-Atk int,
-Def int,
-SpAtk int,
-Spdef int,
-Spd int,
-omistaja int references Kayttaja(Id) ON DELETE cascade
-                                     ON UPDATE cascade
-);
-
 CREATE TABLE Pokemonlaji
 (
-ID int primary key,
+ID int primary key not null,
 Nimi varchar(15) NOT NULL,
 Type1 varchar(10) NOT NULL,
 Type2 varchar(10),
@@ -31,7 +14,24 @@ BSpd int
 
 CREATE TABLE Kayttaja
 (
-Id int,
+Id serial primary key not null,
 Tunnus varchar(15),
 Salasana varchar(15)
+);
+
+CREATE TABLE Pokemon
+(
+ID serial primary key not null,
+Laji int references Pokemonlaji(ID) ON DELETE cascade
+                                    ON UPDATE cascade,
+Nimi varchar(15),
+Taso int,
+HP int,
+Atk int,
+Def int,
+SpAtk int,
+Spdef int,
+Spd int,
+omistaja int references Kayttaja(Id) ON DELETE cascade
+                                     ON UPDATE cascade
 );
