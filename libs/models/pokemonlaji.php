@@ -110,7 +110,6 @@ class Pokemonlaji {
             $sql .= "Select * from Pokemonlaji where BSpd >= ? INTERSECT ";
             $parametrit[] = $spd;
         }
-        echo 'joo';
         $sql .= "Select * from Pokemonlaji";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute($parametrit);
