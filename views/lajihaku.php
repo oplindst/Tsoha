@@ -8,7 +8,7 @@
         </div>
     </form>
 
-    <form class = "form-horizontal" role = "form" action = "lajiHakuControl.php" method = "POST">
+    <form class = "form-horizontal" role = "form" action = "lajihakutulos.php" method = "POST">
         
         <div class = "form-group">
             <label for = "inputPassword1" class = "col-md-2 control-label">Nimi</label>

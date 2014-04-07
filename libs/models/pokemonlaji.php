@@ -14,6 +14,7 @@ class Pokemonlaji {
     private $BSpAtk;
     private $BSpDef;
     private $BSpd;
+    private $virheet = array();
 
     public function __construct($id, $nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd) {
         $this->ID = $id;
@@ -75,13 +76,11 @@ class Pokemonlaji {
             $parametrit[] = $type2;
             $parametrit[] = $type1;
             $parametrit[] = $type2;
-        }
-        else if ($type1 !== '-' && $type2 === '-') {
+        } else if ($type1 !== '-' && $type2 === '-') {
             $sql .= "Select * from Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
             $parametrit[] = $type1;
             $parametrit[] = $type1;
-        }
-        else if ($type1 === '-' && $type2 !== '-') {
+        } else if ($type1 === '-' && $type2 !== '-') {
             $sql .= "Select * from Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
             $parametrit[] = $type2;
             $parametrit[] = $type2;
@@ -246,6 +245,14 @@ class Pokemonlaji {
 
     public function setSpd($spd) {
         $this->BSpd = $spd;
+    }
+
+    public function onkoKelvollinen() {
+        return empty($this->virheet);
+    }
+    
+    public function getVirheet() {
+        return $this->virheet;
     }
 
 }

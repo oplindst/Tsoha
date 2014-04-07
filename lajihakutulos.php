@@ -15,5 +15,5 @@ $spd = trim($_POST["Speed"]);
 
 $pokemonit = Pokemonlaji::etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd);
 
-naytaNakyma('index.php', array('pokemonit' => $pokemonit));
+naytaNakyma('lajihakutulos.php', array('pokemonit' => $pokemonit));
 
