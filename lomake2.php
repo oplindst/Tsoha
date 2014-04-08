@@ -27,7 +27,7 @@ if ($toiminto === 'lisaa') {
 $id = '';
 $nimi = '';
 $type1 = 'Normal';
-$type2 = '';
+$type2 = '-';
 $hp = '';
 $atk = '';
 $def = '';

@@ -16,17 +16,18 @@ class Pokemonlaji {
     private $BSpd;
     private $virheet = array();
 
-    public function __construct($id, $nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd) {
-        $this->ID = $id;
-        $this->Nimi = $nimi;
-        $this->Type1 = $type1;
-        $this->Type2 = $type2;
-        $this->BHP = $hp;
-        $this->BAtk = $atk;
-        $this->BDef = $def;
-        $this->BSpAtk = $spatk;
-        $this->BSpDef = $spdef;
-        $this->BSpd = $spd;
+    public function __construct($param) {
+        //$id, $nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd
+        $this->ID = $param[0];
+        $this->Nimi = $param[1];
+        $this->Type1 = $param[2];
+        $this->Type2 = $param[3];
+        $this->BHP = $param[4];
+        $this->BAtk = $param[5];
+        $this->BDef = $param[6];
+        $this->BSpAtk = $param[7];
+        $this->BSpDef = $param[8];
+        $this->BSpd = $param[9];
     }
 
     public function getId() {
@@ -138,17 +139,8 @@ class Pokemonlaji {
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $laji = new Pokemonlaji();
-            $laji->setId($tulos->id);
-            $laji->setName($tulos->nimi);
-            $laji->setType1($tulos->type1);
-            $laji->setType2($tulos->type2);
-            $laji->setHP($tulos->bhp);
-            $laji->setAtk($tulos->batk);
-            $laji->setDef($tulos->bdef);
-            $laji->setSpAtk($tulos->bspatk);
-            $laji->setSpDef($tulos->bspdef);
-            $laji->setSpd($tulos->bspd);
+            $param = kokoaParametrit($tulos);
+            $laji = new Pokemonlaji($param);
             $tulokset[] = $laji;
         }
         return $tulokset;
@@ -250,7 +242,7 @@ class Pokemonlaji {
     public function onkoKelvollinen() {
         return empty($this->virheet);
     }
-    
+
     public function getVirheet() {
         return $this->virheet;
     }
