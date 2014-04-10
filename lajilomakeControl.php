@@ -28,18 +28,30 @@ $lisattava->setSpd($spd);
 
 $toiminto = $_POST["toiminto"];
 
-if ($toiminto === 'haku') {
-    $otsikko = 'Haku';
-    $submit = 'Hae';
-}
+if ($lisattava->onkoKelvollinen()) {
 
-if ($toiminto === 'Tallenna') {
-    $vanhaid = $_POST["vanhaid"];
-    $lisattava->paivita($vanhaid);
-}
+    if ($toiminto === 'Tallenna') {
+        $vanhaid = $_POST["vanhaid"];
+        $lisattava->paivita($vanhaid);
+        $_SESSION['ilmoitus'] = "Pokemonin muokkaus onnistui.";
+    }
 
-if ($toiminto === 'Lisää') {
-    $lisattava->lisaaKantaan();
-}
+    if ($toiminto === 'Lisää') {
+        $lisattava->lisaaKantaan();
+        $_SESSION['ilmoitus'] = "Pokemonin lisäys onnistui.";
+    }
+    header('Location: index.php');
+} else {
+    if ($toiminto === 'Tallenna') {
+        $otsikko = 'Muokkaa';
+        $submit = 'Tallenna';
+    }
 
-header('Location: index.php');
+    if ($toiminto === 'Lisää') {
+        $otsikko = 'Lisää Pokemon';
+        $submit = 'Lisää';
+    }
+    $id = $_POST["vanhaid"];
+    $virheet = $lisattava->getVirheet();
+    naytaNakyma('lajilomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'id' => $id, 'nimi' => $nimi, 'type1' => $type1, 'type2' => $type2, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virheet' => $virheet));
+}

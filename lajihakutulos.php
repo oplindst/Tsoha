@@ -14,6 +14,11 @@ $spdef = trim($_POST["SpDefense"]);
 $spd = trim($_POST["Speed"]);
 
 $pokemonit = Pokemonlaji::etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd);
-
-naytaNakyma('lajihakutulos.php', array('pokemonit' => $pokemonit));
+if (empty($pokemonit)) {
+    $virhe = 'Ei hakutuloksia.';
+    naytaNakyma('lajihaku.php', array('virhe' => $virhe));
+}
+else {
+    naytaNakyma('lajihakutulos.php', array('pokemonit' => $pokemonit));
+}
 

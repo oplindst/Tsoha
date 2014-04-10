@@ -17,7 +17,6 @@ class Pokemonlaji {
     private $virheet = array();
 
     public function __construct($param) {
-        //$id, $nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd
         $this->ID = $param[0];
         $this->Nimi = $param[1];
         $this->Type1 = $param[2];
@@ -36,6 +35,14 @@ class Pokemonlaji {
 
     public function setId($id) {
         $this->ID = $id;
+        
+        if (!preg_match('/^\d+$/', $id)) {
+            $this->virheet['id'] = "ID:n pitää olla positiivinen numero.";
+        } else if ($id > 2000) {
+            $this->virheet['id'] = "ID:n pitää olla 2000 tai pienempi";
+        } else {
+            unset($this->virheet['id']);
+        }
     }
 
     public static function etsiPokemon($id) {
@@ -173,6 +180,16 @@ class Pokemonlaji {
 
     public function setName($nimi) {
         $this->Nimi = $nimi;
+        
+        if (trim($nimi) === '') {
+            $this->virheet['nimi'] = "Nimi ei saa olla tyhjä";
+        } else if (strlen($nimi) > 15) {
+            $this->virheet['nimi'] = "Nimen pitää olla 15 merkkiä tai alle.";
+        } else if (htmlspecialchars($nimi) !== $nimi) {
+            $this->virheet['nimi'] = "Erikoismerkit kielletty";
+        } else {
+            unset($this->virheet['nimi']);
+        }
     }
 
     public function getType1() {
@@ -197,6 +214,15 @@ class Pokemonlaji {
 
     public function setHP($hp) {
         $this->BHP = $hp;
+
+        if (!preg_match('/^\d+$/', $hp)) {
+            $this->virheet['hp'] = "Base HP:n pitää olla positiivinen numero.";
+        } else if ($hp > 255) {
+            $this->virheet['hp'] = "Base HP:n pitää olla 255 tai pienempi";
+        }
+        else {
+            unset($this->virheet['hp']);
+        }
     }
 
     public function getAtk() {
@@ -205,6 +231,14 @@ class Pokemonlaji {
 
     public function setAtk($atk) {
         $this->BAtk = $atk;
+        
+        if (!preg_match('/^\d+$/', $atk)) {
+            $this->virheet['atk'] = "Base Attackin pitää olla positiivinen numero.";
+        } else if ($atk > 255) {
+            $this->virheet['atk'] = "Base Attackin pitää olla 255 tai pienempi";
+        } else {
+            unset($this->virheet['atk']);
+        }
     }
 
     public function getDef() {
@@ -213,6 +247,14 @@ class Pokemonlaji {
 
     public function setDef($def) {
         $this->BDef = $def;
+        
+        if (!preg_match('/^\d+$/', $def)) {
+            $this->virheet['def'] = "Base Defensen pitää olla positiivinen numero.";
+        } else if ($def > 255) {
+            $this->virheet['def'] = "Base Defensen pitää olla 255 tai pienempi";
+        } else {
+            unset($this->virheet['def']);
+        }
     }
 
     public function getSpAtk() {
@@ -221,6 +263,14 @@ class Pokemonlaji {
 
     public function setSpAtk($spatk) {
         $this->BSpAtk = $spatk;
+        
+        if (!preg_match('/^\d+$/', $spatk)) {
+            $this->virheet['spatk'] = "Base Sp. Attackin pitää olla positiivinen numero.";
+        } else if ($spatk > 255) {
+            $this->virheet['spatk'] = "Base Sp. Attackin pitää olla 255 tai pienempi";
+        } else {
+            unset($this->virheet['spatk']);
+        }
     }
 
     public function getSpDef() {
@@ -229,6 +279,14 @@ class Pokemonlaji {
 
     public function setSpDef($spdef) {
         $this->BSpDef = $spdef;
+        
+        if (!preg_match('/^\d+$/', $spdef)) {
+            $this->virheet['spdef'] = "Base Sp. Defensen pitää olla positiivinen numero.";
+        } else if ($spdef > 255) {
+            $this->virheet['spdef'] = "Base Sp. Defensen pitää olla 255 tai pienempi";
+        } else {
+            unset($this->virheet['spdef']);
+        }
     }
 
     public function getSpd() {
@@ -237,6 +295,14 @@ class Pokemonlaji {
 
     public function setSpd($spd) {
         $this->BSpd = $spd;
+        
+        if (!preg_match('/^\d+$/', $spd)) {
+            $this->virheet['spd'] = "Base Speedin pitää olla positiivinen numero.";
+        } else if ($spd > 255) {
+            $this->virheet['spd'] = "Base Speedin pitää olla 255 tai pienempi";
+        } else {
+            unset($this->virheet['spd']);
+        }
     }
 
     public function onkoKelvollinen() {

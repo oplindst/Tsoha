@@ -9,11 +9,6 @@ $toiminto = $_GET['toiminto'];
 $otsikko = '';
 $submit = '';
 
-if ($toiminto === 'haku') {
-    $otsikko = 'Haku';
-    $submit = 'Hae';
-}
-
 if ($toiminto === 'muokkaa') {
     $otsikko = 'Muokkaa';
     $submit = 'Tallenna';
