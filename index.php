@@ -1,9 +1,13 @@
 <?php
+
 require 'libs/functions.php';
 require_once "libs/models/pokemonlaji.php";
 
-kirjautunut();
-
 $pokemonit = Pokemonlaji::etsiKaikkiPokemonit();
 
-naytaNakyma('index.php', array('pokemonit' => $pokemonit));
+if (kirjautunut()) {
+    naytaNakyma('index.php', array('pokemonit' => $pokemonit));
+}
+else {
+    naytaNakyma('login.php', array('pokemonit' => $pokemonit));
+}

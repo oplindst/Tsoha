@@ -5,6 +5,8 @@ class Kayttaja {
     private $Id;
     private $Tunnus;
     private $Salasana;
+    private $Sala2;
+    private $virheet = array();
 
     public function __construct($id, $tunnus, $salasana) {
         $this->Id = $id;
@@ -30,10 +32,46 @@ class Kayttaja {
 
     public function setTunnus($tunnus) {
         $this->Tunnus = $tunnus;
+
+        if (trim($tunnus) === '') {
+            $this->virheet['tunnus'] = "Käyttäjätunnus ei saa olla tyhjä";
+        } else if (htmlspecialchars($tunnus) !== $tunnus) {
+            $this->virheet['tunnus'] = "Erikoismerkit kielletty";
+        } else if (strlen($tunnus) > 15) {
+            $this->virheet['tunnus'] = "Tunnuksen pitää olla 15 merkkiä tai alle.";
+        } else {
+            unset($this->virheet['tunnus']);
+        }
     }
 
     public function setSalasana($salasana) {
         $this->Salasana = $salasana;
+
+        if (trim($salasana) === '') {
+            $this->virheet['salasana'] = "Salasana ei saa olla tyhjä";
+        } else if (htmlspecialchars($salasana) !== $salasana) {
+            $this->virheet['salasana'] = "Erikoismerkit kielletty";
+        } else if (strlen($salasana) > 15) {
+            $this->virheet['salasana'] = "Salasanan pitää olla 15 merkkiä tai alle.";
+        } else {
+            unset($this->virheet['salasana']);
+        }
+    }
+
+    public function setSala2($salasana) {
+        $this->Sala2 = $salasana;
+
+        if (trim($salasana) === '') {
+            $this->virheet['sala2'] = "Salasana ei saa olla tyhjä";
+        } else if (htmlspecialchars($salasana) !== $salasana) {
+            $this->virheet['sala2'] = "Erikoismerkit kielletty";
+        } else if (strlen($salasana) > 15) {
+            $this->virheet['sala2'] = "Salasanan pitää olla 15 merkkiä tai alle.";
+        } else if (!($salasana === $this->Salasana)) {
+            $this->virheet['sala2'] = "Salasanat eivät täsmää.";
+        } else {
+            unset($this->virheet['salasana']);
+        }
     }
 
     public static function etsiKaikkiKayttajat() {
@@ -46,17 +84,17 @@ class Kayttaja {
             $kayttaja->setId($tulos->id);
             $kayttaja->setTunnus($tulos->tunnus);
             $kayttaja->setSalasana($tulos->salasana);
-            
+
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
     }
 
-    public static function etsiKayttajaTunnuksilla($kayttaja, $salasana) {
+    public static function etsiKayttajaTunnuksilla($kayttaja) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "SELECT * from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
+        $sql = "SELECT * from kayttaja where tunnus = ? LIMIT 1";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja, $salasana));
+        $kysely->execute(array($kayttaja));
 
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {
@@ -69,6 +107,21 @@ class Kayttaja {
 
             return $kayttaja;
         }
+    }
+
+    public function lisaaKantaan() {
+        require_once "libs/tietokantayhteys.php";
+        $sql = "Insert into Kayttaja(Tunnus, Salasana) Values (?,?)";
+        $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($this->Tunnus, $this->Salasana));
+    }
+
+    public function onkoKelvollinen() {
+        return empty($this->virheet);
+    }
+
+    public function getVirheet() {
+        return $this->virheet;
     }
 
 }

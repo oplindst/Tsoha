@@ -1,5 +1,3 @@
-<h1>Pokemon-tietokanta</h1>
-
 <form class="form-horizontal" role="form" action="ulos.php" method="POST">
     <div class="form-group">
         <div class="col-md-offset-8 col-md-10">
@@ -8,18 +6,16 @@
     </div>
 </form>
 
-<div class="row">
-    <form class="form-horizontal" role="form" action="omat.php" method="POST">
-        <div class="form-group">
-            <div class="col-md-offset-5">
-                <button type="submit" class="btn btn-primary">Omat Pokemonit</button>
-            </div>
+<form class = "form-horizontal" role = "form" action = "index.php" method = "POST">
+    <div class = "form-group">
+        <div class = "col-md-offset-8 col-md-10">
+            <button type = "submit" class = "btn btn-link">Takaisin</button>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 
 <div class="container">
-    <h1>Yleistä tietoa</h1>
+    <h1>Omat Pokemonit</h1>
 
     <form class="form-horizontal" role="form" action="lajiHakulomake.php" method="POST">
         <div class="form-group">
@@ -41,14 +37,13 @@
             <tr>
                 <th>#</th>
                 <th>Nimi</th>
-                <th>Tyyppi1</th>
-                <th>Tyyppi2</th>
-                <th>Base HP</th>
-                <th>Base Attack</th>
-                <th>Base Defense</th>
-                <th>Base Sp. Attack</th>
-                <th>Base Sp. Defense</th>
-                <th>Base Speed</th>
+                <th>Taso</th>
+                <th>HP</th>
+                <th>Attack</th>
+                <th>Defense</th>
+                <th>Sp. Attack</th>
+                <th>Sp. Defense</th>
+                <th>Speed</th>
                 <th>Muokkaa</th>
                 <th>Poista</th>
 
@@ -59,10 +54,9 @@
             <?php foreach ($data->pokemonit as $pokemon): ?>
 
                 <tr>
-                    <td><?php echo $pokemon->getId() ?></td>
+                    <td><?php echo $pokemon->getLaji() ?></td>
                     <td><?php echo $pokemon->getName() ?></td>
-                    <td><?php echo $pokemon->getType1() ?></td>
-                    <td><?php echo $pokemon->getType2() ?></td>
+                    <td><?php echo $pokemon->getTaso() ?></td>
                     <td><?php echo $pokemon->getHP() ?></td>
                     <td><?php echo $pokemon->getAtk() ?></td>
                     <td><?php echo $pokemon->getDef() ?></td>
@@ -77,5 +71,4 @@
         </tbody>
     </table>
 </div>
-
 

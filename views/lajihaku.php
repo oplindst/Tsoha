@@ -13,13 +13,16 @@
         <div class = "form-group">
             <label for = "inputPassword1" class = "col-md-2 control-label">Nimi</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword1" name = "Nimi">
+                <input type = "text" class = "form-control" id = "inputPassword1" name = "Nimi" value = <?php echo $data->nimi; ?>>
             </div>
         </div>
         <div class = "form-group">
             <label for = "inputPassword2" class = "col-md-2 control-label">Type1</label>
             <div class = "col-md-10">
                 <select name = "type1">
+                    <?php if (!empty($data->virheet) || !empty($data->virhe)) : ?>
+                        <option selected ="<?php echo $data->type1; ?>"><?php echo $data->type1; ?></option>
+                    <?php endif; ?>
                     <option value = "-">-</option>
                     <option value = "Normal">Normal</option>
                     <option value = "Fighting">Fighting</option>
@@ -47,7 +50,9 @@
             <label for = "inputPassword2" class = "col-md-2 control-label">Type2</label>
             <div class = "col-md-10">
                 <select name = "type2">
-                    
+                    <?php if (!empty($data->virheet) || !empty($data->virhe)) : ?>
+                        <option selected ="<?php echo $data->type2; ?>"><?php echo $data->type2; ?></option>
+                    <?php endif; ?>
                     <option value = "-">-</option>
                     <option value = "Normal">Normal</option>
                     <option value = "Fighting">Fighting</option>
@@ -74,42 +79,42 @@
         <div class = "form-group">
             <label for = "inputPassword2" class = "col-md-2 control-label">Base HP >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "HP">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "HP" value = <?php echo $data->hp; ?>>
             </div>
         </div>
 
         <div class = "form-group">
-            <label for = "inputPassword2" class = "col-md-2 control-label">Base Attack >= </label>
+            <label for = "inputPassword2" class = "col-md-2 control-label">Base Attack >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "Attack">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "Attack" value = <?php echo $data->atk; ?>>
             </div>
         </div>
 
         <div class = "form-group">
-            <label for = "inputPassword2" class = "col-md-2 control-label">Base Defense >= </label>
+            <label for = "inputPassword2" class = "col-md-2 control-label">Base Defense >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "Defense">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "Defense" value = <?php echo $data->def; ?>>
             </div>
         </div>
 
         <div class = "form-group">
-            <label for = "inputPassword2" class = "col-md-2 control-label">Base Sp. Attack >= </label>
+            <label for = "inputPassword2" class = "col-md-2 control-label">Base Sp. Attack >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "SpAttack">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "SpAttack" value = <?php echo $data->spatk; ?>>
             </div>
         </div>
 
         <div class = "form-group">
-            <label for = "inputPassword2" class = "col-md-2 control-label">Base Sp. Defense >= </label>
+            <label for = "inputPassword2" class = "col-md-2 control-label">Base Sp. Defense >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "SpDefense">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "SpDefense" value = <?php echo $data->spdef; ?>>
             </div>
         </div>
 
         <div class = "form-group">
-            <label for = "inputPassword2" class = "col-md-2 control-label">Base Speed >= </label>
+            <label for = "inputPassword2" class = "col-md-2 control-label">Base Speed >=</label>
             <div class = "col-md-10">
-                <input type = "text" class = "form-control" id = "inputPassword2" name = "Speed">
+                <input type = "text" class = "form-control" id = "inputPassword2" name = "Speed" value = <?php echo $data->spd; ?>>
             </div>
         </div>
         

@@ -53,5 +53,6 @@ if ($lisattava->onkoKelvollinen()) {
     }
     $id = $_POST["vanhaid"];
     $virheet = $lisattava->getVirheet();
+    $nimi = htmlspecialchars($nimi);
     naytaNakyma('lajilomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'id' => $id, 'nimi' => $nimi, 'type1' => $type1, 'type2' => $type2, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virheet' => $virheet));
 }

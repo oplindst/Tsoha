@@ -32,6 +32,6 @@ Def int,
 SpAtk int,
 Spdef int,
 Spd int,
-omistaja int references Kayttaja(Id) ON DELETE cascade
+Omistaja int references Kayttaja(Id) ON DELETE cascade
                                      ON UPDATE cascade
 );

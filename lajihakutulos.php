@@ -13,12 +13,28 @@ $spatk = trim($_POST["SpAttack"]);
 $spdef = trim($_POST["SpDefense"]);
 $spd = trim($_POST["Speed"]);
 
-$pokemonit = Pokemonlaji::etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd);
-if (empty($pokemonit)) {
-    $virhe = 'Ei hakutuloksia.';
-    naytaNakyma('lajihaku.php', array('virhe' => $virhe));
+$testi = new Pokemonlaji();
+$testi->setHP($hp);
+$testi->setAtk($atk);
+$testi->setDef($def);
+$testi->setSpAtk($spatk);
+$testi->setSpDef($spdef);
+$testi->setSpd($spd);
+$testi->poistaVirheitaHakuaVarten();
+
+if ($testi->onkoKelvollinen()) {
+    $pokemonit = Pokemonlaji::etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd);
+    if (empty($pokemonit)) {
+        $virhe = 'Ei hakutuloksia.';
+        $nimi = htmlspecialchars($nimi);
+        naytaNakyma('lajihaku.php', array('nimi' => $nimi, 'type1' => $type1, 'type2' => $type2, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virhe' => $virhe));
+    } else {
+        naytaNakyma('lajihakutulos.php', array('pokemonit' => $pokemonit));
+    }
 }
 else {
-    naytaNakyma('lajihakutulos.php', array('pokemonit' => $pokemonit));
+    $virheet = $testi->getVirheet();
+    $nimi = htmlspecialchars($nimi);
+    naytaNakyma('lajihaku.php', array('nimi' => $nimi, 'type1' => $type1, 'type2' => $type2, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virheet' => $virheet));
 }
 
