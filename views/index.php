@@ -49,9 +49,11 @@
                 <th>Base Sp. Attack</th>
                 <th>Base Sp. Defense</th>
                 <th>Base Speed</th>
+                <!-- Lajien muokkaus ja poistaminen vain adminille -->
+                <?php if($_SESSION['kirjautunut'] == 1) : ?>
                 <th>Muokkaa</th>
                 <th>Poista</th>
-
+                <?php endif; ?>
             </tr>
         </thead>
 
@@ -69,8 +71,10 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
+                    <?php if($_SESSION['kirjautunut'] == 1) : ?>
                     <td><a href="lomake2.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
                     <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
+                    <?php endif; ?>
                 </tr>
 
             <?php endforeach; ?>

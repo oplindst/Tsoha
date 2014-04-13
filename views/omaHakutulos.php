@@ -1,12 +1,6 @@
-<form class="form-horizontal" role="form" action="ulos.php" method="POST">
-    <div class="form-group">
-        <div class="col-md-offset-8 col-md-10">
-            <button type="submit" class="btn btn-link">Kirjaudu ulos</button>
-        </div>
-    </div>
-</form>
+<h1>Hakutulokset</h1>
 
-<form class = "form-horizontal" role = "form" action = "index.php" method = "POST">
+<form class = "form-horizontal" role = "form" action = "omat.php" method = "POST">
     <div class = "form-group">
         <div class = "col-md-offset-8 col-md-10">
             <button type = "submit" class = "btn btn-link">Takaisin</button>
@@ -14,23 +8,9 @@
     </div>
 </form>
 
-<div class="container">
-    <h1>Omat Pokemonit</h1>
 
-    <form class="form-horizontal" role="form" action="omaHakulomake.php" method="POST">
-        <div class="form-group">
-            <div class="col-md-offset-5 col-md-10">
-                <button type="submit" class="btn btn-primary">Haku</button>
-            </div>
-        </div>
-    </form>
-    <form class="form-horizontal" role="form" action="lomake.php?toiminto=lisaa" method="POST">
-        <div class="form-group">
-            <div class="col-md-offset-5 col-md-10">
-                <button type="submit" class="btn btn-primary">Lisää</button>
-            </div>
-        </div>
-    </form>
+<div class="container">
+
 
     <table class="table table-striped">
         <thead>
@@ -63,12 +43,11 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
-                    <td><a href="lomake.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
-                    <td><a href="omaPoisto.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
+                    <td><a href="lomake2.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
+                    <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
                 </tr>
 
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
-

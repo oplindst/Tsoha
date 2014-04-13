@@ -59,6 +59,8 @@ function kokoaParametrit($tulos) {
 
 function kokoaPokemonParametrit($tulos) {
     $param = array();
+    $ID = $tulos->id;
+    $param[] = $ID;
     $Laji = $tulos->laji;
     $param[] = $Laji;
     $Nimi = $tulos->nimi;
