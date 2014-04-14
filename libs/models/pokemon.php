@@ -169,11 +169,11 @@ class Pokemon {
         $kysely->execute(array($id));
     }
 
-    public function paivita($vanhaid) {
+    public function paivita($id) {
         require_once "libs/tietokantayhteys.php";
         $sql = "UPDATE Pokemon SET laji = ?, Nimi = ?, Taso = ?, HP = ?, Atk = ?, Def = ?, SpAtk = ?, SpDef = ?, Spd = ? WHERE ID = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd, $vanhaid));
+        $kysely->execute(array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd, $id));
     }
 
     public function getName() {

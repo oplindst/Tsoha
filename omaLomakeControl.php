@@ -29,8 +29,8 @@ $toiminto = $_POST["toiminto"];
 if ($lisattava->onkoKelvollinen()) {
 
     if ($toiminto === 'Tallenna') {
-        $vanhaid = $_POST["vanhaid"];
-        $lisattava->paivita($vanhaid);
+        $id = $_POST["id"];
+        $lisattava->paivita($id);
         $_SESSION['ilmoitus'] = "Pokemonin muokkaus onnistui.";
     }
 
@@ -53,5 +53,5 @@ if ($lisattava->onkoKelvollinen()) {
     $id = $_POST["vanhaid"];
     $virheet = $lisattava->getVirheet();
     $nimi = htmlspecialchars($nimi);
-    naytaNakyma('lajilomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'laji' => $laji, 'nimi' => $nimi, 'type1' => $type1, 'type2' => $type2, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virheet' => $virheet));
+    naytaNakyma('omaLomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'laji' => $laji, 'nimi' => $nimi, 'taso' => $taso, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'virheet' => $virheet));
 }

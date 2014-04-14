@@ -41,5 +41,5 @@ if (isset($_GET['id'])) {
     $spdef = $pokemon->getSpDef();
     $spd = $pokemon->getSpd();
 }
-naytaNakyma('omaLomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'laji' => $laji, 'nimi' => $nimi, 'taso' => $taso, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd));
+naytaNakyma('omaLomake.php', array('otsikko' => $otsikko, 'submit' => $submit, 'laji' => $laji, 'nimi' => $nimi, 'taso' => $taso, 'hp' => $hp, 'atk' => $atk, 'def' => $def, 'spatk' => $spatk, 'spdef' => $spdef, 'spd' => $spd, 'id' => $id));
 

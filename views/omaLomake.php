@@ -81,7 +81,7 @@
         <div class = "form-group">
             <label for = "inputPassword2" class = "col-md-2 control-label"></label>
             <div class = "col-md-10">
-                <input type = "hidden" class = "form-control" id = "inputPassword2" name = "vanhaid" value = <?php echo $data->id; ?>>
+                <input type = "hidden" class = "form-control" id = "inputPassword2" name = "id" value = <?php echo $data->id; ?>>
             </div>
         </div>
 
