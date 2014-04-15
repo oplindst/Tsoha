@@ -3,8 +3,7 @@ require 'libs/functions.php';
 $sivu = 'login.php';
 require 'libs/models/kayttaja.php';
 require_once "libs/models/pokemonlaji.php";
-
-$pokemonit = Pokemonlaji::etsiKaikkiPokemonit();
+$pokemonit = Pokemonlaji::etsiKaikkiPokemonit('id');
 
 if (empty($_POST["salasana"]) && empty($_POST["tunnus"])) {
     

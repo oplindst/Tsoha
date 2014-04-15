@@ -8,6 +8,14 @@
     </div>
 </form>
 
+<form class="form-horizontal" role="form" action="lajiHakulomake.php" method="POST">
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-10">
+                <button type="submit" class="btn btn-primary">Uusi haku</button>
+            </div>
+        </div>
+    </form>
+
 
 <div class="container">
 

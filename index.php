@@ -2,8 +2,13 @@
 
 require 'libs/functions.php';
 require_once "libs/models/pokemonlaji.php";
-
-$pokemonit = Pokemonlaji::etsiKaikkiPokemonit();
+if (!isset($_GET['order'])) {
+    $order = 'id';
+}
+else {
+    $order = $_GET['order'];
+}
+$pokemonit = Pokemonlaji::etsiKaikkiPokemonit($order);
 
 if (kirjautunut()) {
     naytaNakyma('index.php', array('pokemonit' => $pokemonit));

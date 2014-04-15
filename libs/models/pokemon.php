@@ -40,8 +40,6 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $id)) {
             $this->virheet['id'] = "ID:n pitää olla positiivinen numero.";
-        } else if ($id > 2000) {
-            $this->virheet['id'] = "ID:n pitää olla 2000 tai pienempi";
         } else {
             unset($this->virheet['id']);
         }
@@ -77,8 +75,8 @@ class Pokemon {
         $sql = "";
         $parametrit = array();
         if ($nimi !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Pokemon.Nimi = ? INTERSECT ";
-            $parametrit[] = $nimi;
+            $sql .= "Select * from Pokemon, Pokemonlaji where Pokemon.Nimi ILIKE ? INTERSECT ";
+            $parametrit[] = '%' . $nimi . '%';
         }
         if ($type1 !== '-' && $type2 !== '-') {
             $sql .= "Select * from Pokemon, Pokemonlaji where (Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?) INTERSECT ";
@@ -119,7 +117,7 @@ class Pokemon {
             $sql .= "Select * from Pokemon, Pokemonlaji where Spd >= ? INTERSECT ";
             $parametrit[] = $spd;
         }
-        $sql .= "Select * from Pokemon, Pokemonlaji where Omistaja = ? AND Pokemon.laji = Pokemonlaji.id";
+        $sql .= "Select * from Pokemon, Pokemonlaji where Omistaja = ? AND Pokemon.laji = Pokemonlaji.id Order by Pokemonlaji.id";
         $parametrit[] = $id;
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute($parametrit);
@@ -141,9 +139,10 @@ class Pokemon {
         return $tulokset;
     }
 
-    public static function etsiKaikkiPokemonit($omistaja) {
+    public static function etsiKaikkiPokemonit($omistaja, $order) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "select * from Pokemon where Omistaja = ?";
+        $param = array();
+        $sql = "select * from Pokemon where Omistaja = ? order by ".$order. ", laji";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($omistaja));
         $tulokset = array();
@@ -202,11 +201,11 @@ class Pokemon {
         $this->Laji = $laji;
         
         if (!preg_match('/^\d+$/', $laji)) {
-            $this->virheet['id'] = "Lajinumeron pitää olla positiivinen numero.";
-        } else if ($id > 2000) {
-            $this->virheet['id'] = "Lajinumeron pitää olla 2000 tai pienempi";
+            $this->virheet['laji'] = "Lajinumeron pitää olla positiivinen numero.";
+        } else if ($laji > 718) {
+            $this->virheet['laji'] = "Lajinumeron pitää olla 718 tai pienempi";
         } else {
-            unset($this->virheet['id']);
+            unset($this->virheet['laji']);
         }
     }
 
@@ -219,7 +218,7 @@ class Pokemon {
         
         if (!preg_match('/^\d+$/', $taso)) {
             $this->virheet['taso'] = "Taso pitää olla positiivinen numero.";
-        } else if ($id > 2000) {
+        } else if ($taso > 100) {
             $this->virheet['taso'] = "Tason pitää olla 100 tai pienempi";
         } else {
             unset($this->virheet['taso']);
@@ -235,8 +234,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $hp)) {
             $this->virheet['hp'] = "HP:n pitää olla positiivinen numero.";
-        } else if ($hp > 255) {
-            $this->virheet['hp'] = "HP:n pitää olla 255 tai pienempi";
+        } else if ($hp > 1000) {
+            $this->virheet['hp'] = "HP:n pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['hp']);
         }
@@ -251,8 +250,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $atk)) {
             $this->virheet['atk'] = "Attackin pitää olla positiivinen numero.";
-        } else if ($atk > 255) {
-            $this->virheet['atk'] = "Attackin pitää olla 255 tai pienempi";
+        } else if ($atk > 1000) {
+            $this->virheet['atk'] = "Attackin pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['atk']);
         }
@@ -267,8 +266,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $def)) {
             $this->virheet['def'] = "Defensen pitää olla positiivinen numero.";
-        } else if ($def > 255) {
-            $this->virheet['def'] = "Defensen pitää olla 255 tai pienempi";
+        } else if ($def > 1000) {
+            $this->virheet['def'] = "Defensen pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['def']);
         }
@@ -283,8 +282,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $spatk)) {
             $this->virheet['spatk'] = "Sp. Attackin pitää olla positiivinen numero.";
-        } else if ($spatk > 255) {
-            $this->virheet['spatk'] = "Sp. Attackin pitää olla 255 tai pienempi";
+        } else if ($spatk > 1000) {
+            $this->virheet['spatk'] = "Sp. Attackin pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['spatk']);
         }
@@ -299,8 +298,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $spdef)) {
             $this->virheet['spdef'] = "Sp. Defensen pitää olla positiivinen numero.";
-        } else if ($spdef > 255) {
-            $this->virheet['spdef'] = "Sp. Defensen pitää olla 255 tai pienempi";
+        } else if ($spdef > 1000) {
+            $this->virheet['spdef'] = "Sp. Defensen pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['spdef']);
         }
@@ -315,8 +314,8 @@ class Pokemon {
 
         if (!preg_match('/^\d+$/', $spd)) {
             $this->virheet['spd'] = "Speedin pitää olla positiivinen numero.";
-        } else if ($spd > 255) {
-            $this->virheet['spd'] = "Speedin pitää olla 255 tai pienempi";
+        } else if ($spd > 1000) {
+            $this->virheet['spd'] = "Speedin pitää olla 1000 tai pienempi";
         } else {
             unset($this->virheet['spd']);
         }

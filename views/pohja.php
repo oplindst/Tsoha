@@ -18,23 +18,27 @@
         ?>
 
         <?php if (!empty($data->virhe)): ?>
-        <div class="alert alert-danger"><?php echo $data->virhe; ?></div>
+            <div class="alert alert-danger"><?php echo $data->virhe; ?></div>
         <?php endif; ?>
 
         <?php if (!empty($_SESSION['ilmoitus'])): ?>
-        <div class="alert alert-success">
-            <?php echo $_SESSION['ilmoitus']; ?>
-        </div>
-        <?php unset($_SESSION['ilmoitus']); ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION['ilmoitus']; ?>
+            </div>
+            <?php unset($_SESSION['ilmoitus']); ?>
         <?php endif; ?>
 
         <?php if (!empty($data->virheet)): ?>
-           <?php foreach($data->virheet as $key => $viesti): ?>
-              <div class="alert alert-danger"><?php echo $viesti; ?></div>
-           <?php endforeach; ?>
+            <div class="alert alert-danger">
+                <div style="line-height:75%;">
+                    <?php foreach ($data->virheet as $key => $viesti): ?>
+                        <br><?php echo '- ' . $viesti; ?></br>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         <?php endif; ?>
 
-        <?php require 'views/'.$sivu; ?>
+        <?php require 'views/' . $sivu; ?>
 
     </body>
 </html>

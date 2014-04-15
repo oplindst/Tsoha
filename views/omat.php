@@ -35,15 +35,15 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Nimi</th>
-                <th>Taso</th>
-                <th>HP</th>
-                <th>Attack</th>
-                <th>Defense</th>
-                <th>Sp. Attack</th>
-                <th>Sp. Defense</th>
-                <th>Speed</th>
+                <th><a href="omat.php">#</a></th>
+                <th><a href="omat.php?order=nimi">Nimi</th>
+                <th><a href="omat.php?order=taso">Taso</th>
+                <th><a href="omat.php?order=hp">HP</th>
+                <th><a href="omat.php?order=atk">Attack</th>
+                <th><a href="omat.php?order=def">Defense</th>
+                <th><a href="omat.php?order=spatk">Sp. Attack</th>
+                <th><a href="omat.php?order=spdef">Sp. Defense</th>
+                <th><a href="omat.php?order=spd">Speed</th>
                 <th>Muokkaa</th>
                 <th>Poista</th>
 

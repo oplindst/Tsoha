@@ -39,16 +39,16 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Nimi</th>
-                <th>Tyyppi1</th>
-                <th>Tyyppi2</th>
-                <th>Base HP</th>
-                <th>Base Attack</th>
-                <th>Base Defense</th>
-                <th>Base Sp. Attack</th>
-                <th>Base Sp. Defense</th>
-                <th>Base Speed</th>
+                <th><a href="index.php">#</th>
+                <th><a href="index.php?order=nimi">Nimi</th>
+                <th><a href="index.php?order=type1">Tyyppi1</th>
+                <th><a href="index.php?order=type2">Tyyppi2</th>
+                <th><a href="index.php?order=bhp">Base HP</th>
+                <th><a href="index.php?order=batk">Base Attack</th>
+                <th><a href="index.php?order=bdef">Base Defense</th>
+                <th><a href="index.php?order=bspatk">Base Sp. Attack</th>
+                <th><a href="index.php?order=bspdef">Base Sp. Defense</th>
+                <th><a href="index.php?order=bspd">Base Speed</th>
                 <!-- Lajien muokkaus ja poistaminen vain adminille -->
                 <?php if($_SESSION['kirjautunut'] == 1) : ?>
                 <th>Muokkaa</th>

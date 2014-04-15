@@ -75,8 +75,8 @@ class Pokemonlaji {
         $sql = "";
         $parametrit = array();
         if ($nimi !== "") {
-            $sql .= "Select * from Pokemonlaji where Nimi = ? INTERSECT ";
-            $parametrit[] = $nimi;
+            $sql .= "Select * from Pokemonlaji where Nimi ILIKE ? INTERSECT ";
+            $parametrit[] = '%' . $nimi . '%';
         }
         if ($type1 !== '-' && $type2 !== '-') {
             $sql .= "Select * from Pokemonlaji where (Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?) INTERSECT ";
@@ -117,7 +117,7 @@ class Pokemonlaji {
             $sql .= "Select * from Pokemonlaji where BSpd >= ? INTERSECT ";
             $parametrit[] = $spd;
         }
-        $sql .= "Select * from Pokemonlaji";
+        $sql .= "Select * from Pokemonlaji order by id";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute($parametrit);
 
@@ -139,9 +139,9 @@ class Pokemonlaji {
         return $tulokset;
     }
 
-    public static function etsiKaikkiPokemonit() {
+    public static function etsiKaikkiPokemonit($order) {
 
-        $sql = "select * from Pokemonlaji Order By id";
+        $sql = "select * from Pokemonlaji Order By ".$order. ", id";
         $kysely = kaytaTietokantaa($sql);
 
         $tulokset = array();
