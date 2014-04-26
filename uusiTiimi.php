@@ -13,7 +13,7 @@ if ($tiimi->onkoKelvollinen()) {
     header('Location: tiimit.php');
 }
 else {
-    $virheet = $lisattava->getVirheet();
+    $virheet = $tiimi->getVirheet();
     $nimi = htmlspecialchars($nimi);
     $tiimit = Tiimi::etsiKaikkiTiimit($omistaja);
     naytaNakyma('tiimit.php', array('tiimit' => $tiimit, 'virheet' => $virheet, 'nimi' => $nimi));

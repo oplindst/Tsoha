@@ -52,11 +52,6 @@ class Pokemon {
         $kysely->execute(array($id));
         $tulokset = array();
         
-        $tulos = $kysely->fetchObject();
-        if ($tulos == null) {
-            return null;
-        }
-        
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $pokemon = new Pokemon();
             $pokemon->setId($tulos->id);
