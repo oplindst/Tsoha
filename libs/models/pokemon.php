@@ -51,8 +51,12 @@ class Pokemon {
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         $tulokset = array();
-
-
+        
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        }
+        
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $pokemon = new Pokemon();
             $pokemon->setId($tulos->id);
@@ -138,6 +142,14 @@ class Pokemon {
         }
         return $tulokset;
     }
+    
+    public static function haeTiiminPokemonit($id_lista) {
+        $pokemonit = array();
+        foreach ($id_lista as $id) {
+            $pokemonit[] = Pokemon::etsiPokemon($id);
+        }
+        return $pokemonit;
+    }
 
     public static function etsiKaikkiPokemonit($omistaja, $order) {
         require_once "libs/tietokantayhteys.php";
@@ -199,11 +211,14 @@ class Pokemon {
 
     public function setLaji($laji) {
         $this->Laji = $laji;
+        require_once "libs/models/pokemonlaji.php";
         
         if (!preg_match('/^\d+$/', $laji)) {
             $this->virheet['laji'] = "Lajinumeron pitää olla positiivinen numero.";
         } else if ($laji > 718) {
             $this->virheet['laji'] = "Lajinumeron pitää olla 718 tai pienempi";
+        } else if (Pokemonlaji::etsiPokemon($laji)==null) {
+            $this->virheet['olemassa'] = "Lajia ei ole olemassa";
         } else {
             unset($this->virheet['laji']);
         }

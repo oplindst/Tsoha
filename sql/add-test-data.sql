@@ -36,5 +36,11 @@ VALUES (25, 'Pikachu', 'Electric', '-', 40, 30, 30, 60, 40, 80);
 
 INSERT INTO Pokemon(Laji, Nimi, Taso, HP, Atk, Def, SpAtk, SpDef, Spd, Omistaja)
 VALUES (25, 'Pikachu', 100, 150, 70, 80, 200, 100, 230, 1);
-INSERT INTO Pokemon(Laji, Nimi, Taso, HP, Atk, Def, SpAtk, SpDef, Spd, Omistaja)
-VALUES (1, 'Bulbasaur', 100, 150, 70, 80, 200, 100, 230, 1);
+INSERT INTO Pokemon(Laji, Nimi, Taso, HP, Atk, Def, SpAtk, SpDef, Spd, Omistaja, Kommentti)
+VALUES (1, 'Bulbasaur', 100, 150, 70, 80, 200, 100, 230, 1, 'huono');
+
+INSERT INTO Tiimi
+VALUES (1, 'Paras', 1);
+
+INSERT INTO Tiiminjasen
+VALUES (1, 1);

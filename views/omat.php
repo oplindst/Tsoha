@@ -17,6 +17,13 @@
 <div class="container">
     <h1>Omat Pokemonit</h1>
 
+    <form class="form-horizontal" role="form" action="tiimit.php" method="POST">
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-10">
+                <button type="submit" class="btn btn-primary">Tiimit</button>
+            </div>
+        </div>
+    </form>
     <form class="form-horizontal" role="form" action="omaHakulomake.php" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">
@@ -24,10 +31,10 @@
             </div>
         </div>
     </form>
-    <form class="form-horizontal" role="form" action="lomake.php?toiminto=lisaa" method="POST">
+    <form class="form-horizontal" role="form" action="omaLomake.php?toiminto=lisaa" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">
-                <button type="submit" class="btn btn-primary">Lisää</button>
+                <button type="submit" class="btn btn-primary">Lisää Pokemon</button>
             </div>
         </div>
     </form>
@@ -37,13 +44,13 @@
             <tr>
                 <th><a href="omat.php">#</a></th>
                 <th><a href="omat.php?order=nimi">Nimi</th>
-                <th><a href="omat.php?order=taso">Taso</th>
-                <th><a href="omat.php?order=hp">HP</th>
-                <th><a href="omat.php?order=atk">Attack</th>
-                <th><a href="omat.php?order=def">Defense</th>
-                <th><a href="omat.php?order=spatk">Sp. Attack</th>
-                <th><a href="omat.php?order=spdef">Sp. Defense</th>
-                <th><a href="omat.php?order=spd">Speed</th>
+                <th><a href="omat.php?order=taso desc">Taso</th>
+                <th><a href="omat.php?order=hp desc">HP</th>
+                <th><a href="omat.php?order=atk desc">Attack</th>
+                <th><a href="omat.php?order=def desc">Defense</th>
+                <th><a href="omat.php?order=spatk desc">Sp. Attack</th>
+                <th><a href="omat.php?order=spdef desc">Sp. Defense</th>
+                <th><a href="omat.php?order=spd desc">Speed</th>
                 <th>Muokkaa</th>
                 <th>Poista</th>
 
@@ -63,7 +70,7 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
-                    <td><a href="lomake.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
+                    <td><a href="omaLomake.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
                     <td><a href="omaPoisto.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
                 </tr>
 

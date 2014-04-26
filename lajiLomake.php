@@ -4,6 +4,7 @@ require 'libs/functions.php';
 require_once "libs/models/pokemonlaji.php";
 
 kirjautunut();
+admin();
 
 $toiminto = $_GET['toiminto'];
 $otsikko = '';

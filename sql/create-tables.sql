@@ -33,5 +33,22 @@ SpAtk int,
 Spdef int,
 Spd int,
 Omistaja int references Kayttaja(Id) ON DELETE cascade
+                                     ON UPDATE cascade,
+Kommentti varchar(50)
+);
+
+CREATE TABLE Tiimi
+(
+ID serial primary key not null,
+Nimi varchar(15),
+Omistaja int references Kayttaja(Id) ON DELETE cascade
                                      ON UPDATE cascade
+);
+
+CREATE TABLE Tiiminjasen
+(
+Poke_id int references Pokemon(ID) ON DELETE cascade
+                                   ON UPDATE cascade,
+Tiimi_id int references Tiimi(ID) ON DELETE cascade
+                                  ON UPDATE cascade
 );

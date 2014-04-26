@@ -28,13 +28,15 @@
             </div>
         </div>
     </form>
-    <form class="form-horizontal" role="form" action="lomake2.php?toiminto=lisaa" method="POST">
-        <div class="form-group">
-            <div class="col-md-offset-5 col-md-10">
-                <button type="submit" class="btn btn-primary">Lisää</button>
+    <?php if ($_SESSION['kirjautunut'] == 1) : ?>
+        <form class="form-horizontal" role="form" action="lajiLomake.php?toiminto=lisaa" method="POST">
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-10">
+                    <button type="submit" class="btn btn-primary">Lisää</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    <?php endif; ?>
 
     <table class="table table-striped">
         <thead>
@@ -43,16 +45,16 @@
                 <th><a href="index.php?order=nimi">Nimi</th>
                 <th><a href="index.php?order=type1">Tyyppi1</th>
                 <th><a href="index.php?order=type2">Tyyppi2</th>
-                <th><a href="index.php?order=bhp">Base HP</th>
-                <th><a href="index.php?order=batk">Base Attack</th>
-                <th><a href="index.php?order=bdef">Base Defense</th>
-                <th><a href="index.php?order=bspatk">Base Sp. Attack</th>
-                <th><a href="index.php?order=bspdef">Base Sp. Defense</th>
-                <th><a href="index.php?order=bspd">Base Speed</th>
+                <th><a href="index.php?order=bhp desc">Base HP</th>
+                <th><a href="index.php?order=batk desc">Base Attack</th>
+                <th><a href="index.php?order=bdef desc">Base Defense</th>
+                <th><a href="index.php?order=bspatk desc">Base Sp. Attack</th>
+                <th><a href="index.php?order=bspdef desc">Base Sp. Defense</th>
+                <th><a href="index.php?order=bspd desc">Base Speed</th>
                 <!-- Lajien muokkaus ja poistaminen vain adminille -->
-                <?php if($_SESSION['kirjautunut'] == 1) : ?>
-                <th>Muokkaa</th>
-                <th>Poista</th>
+                <?php if ($_SESSION['kirjautunut'] == 1) : ?>
+                    <th>Muokkaa</th>
+                    <th>Poista</th>
                 <?php endif; ?>
             </tr>
         </thead>
@@ -71,9 +73,9 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
-                    <?php if($_SESSION['kirjautunut'] == 1) : ?>
-                    <td><a href="lomake2.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
-                    <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
+                    <?php if ($_SESSION['kirjautunut'] == 1) : ?>
+                        <td><a href="lajiLomake.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
+                        <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
                     <?php endif; ?>
                 </tr>
 

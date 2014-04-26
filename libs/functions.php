@@ -17,18 +17,21 @@ function naytaNakyma($sivu, $data = array()) {
 
 function kirjautunut() {
     if (isset($_SESSION["kirjautunut"])) {
-        $kayttaja = $_SESSION["kirjautunut"];
         return true;
     }
+    header('Location: index.php');
     return false;
 }
 
+
+
 function admin() {
     if (isset($_SESSION["kirjautunut"])) {
-        if ($_SESSION["kirjautunut"] === 1) {
+        if ($_SESSION["kirjautunut"] == 1) {
             return true;
         }
     }
+    header('Location: index.php');
     return false;
 }
 

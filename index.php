@@ -10,7 +10,7 @@ else {
 }
 $pokemonit = Pokemonlaji::etsiKaikkiPokemonit($order);
 
-if (kirjautunut()) {
+if (isset($_SESSION["kirjautunut"])) {
     naytaNakyma('index.php', array('pokemonit' => $pokemonit));
 }
 else {
