@@ -21,7 +21,7 @@ Salasana varchar(15)
 
 CREATE TABLE Pokemon
 (
-ID serial primary key not null,
+PokeID serial primary key not null,
 Laji int references Pokemonlaji(ID) ON DELETE cascade
                                     ON UPDATE cascade,
 Nimi varchar(15),
@@ -32,6 +32,19 @@ Def int,
 SpAtk int,
 Spdef int,
 Spd int,
+HPIV int default 0,
+AtkIV int default 0,
+DefIV int default 0,
+SpAtkIV int default 0,
+SpDefIV int default 0,
+SpdIV int default 0,
+HPEV int default 0,
+AtkEV int default 0,
+DefEV int default 0,
+SpAtkEV int default 0,
+SpDefEV int default 0,
+SpdEV int default 0,
+Nature varchar(15),
 Omistaja int references Kayttaja(Id) ON DELETE cascade
                                      ON UPDATE cascade,
 Kommentti varchar(50)
@@ -47,7 +60,7 @@ Omistaja int references Kayttaja(Id) ON DELETE cascade
 
 CREATE TABLE Tiiminjasen
 (
-Poke_id int references Pokemon(ID) ON DELETE cascade
+Poke_id int references Pokemon(PokeID) ON DELETE cascade
                                    ON UPDATE cascade,
 Tiimi_id int references Tiimi(ID) ON DELETE cascade
                                   ON UPDATE cascade

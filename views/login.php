@@ -1,5 +1,7 @@
 <h1>Pokemon-tietokanta</h1>
 
+<h4>Tervetuloa Pokemon-tietokantaan! Täällä voit pitää kirjaa omista Pokemoneistasi tai muuten vain hakea tietoa Pokemoneista. </h4>
+
 <div class="container">
     <h1>Kirjautuminen</h1>
     <form class="form-horizontal" role="form" action="loginControl.php" method="POST">
@@ -33,6 +35,7 @@
 <div class="container">
     <h1>Yleistä tietoa</h1>
 
+    <h4> Tästä löydät Pokemonlajien tietoja: muun muassa lajikohtaisia tyyppitietoja ja <a href="http://bulbapedia.bulbagarden.net/wiki/Base_stats">Base stat</a>-arvoja.</h4>
     <form class="form-horizontal" role="form" action="lajiHakulomake.php" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">

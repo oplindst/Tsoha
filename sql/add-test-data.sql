@@ -1,5 +1,7 @@
 INSERT INTO Kayttaja 
 VALUES (1, 'O-P', 'bulbasaur');
+INSERT INTO Kayttaja 
+VALUES (2, 'testi', 'testi');
 
 INSERT INTO Pokemonlaji
 VALUES (1, 'Bulbasaur', 'Grass', 'Poison', 45, 49, 49, 65, 65, 45);

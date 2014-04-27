@@ -53,7 +53,7 @@
                     <td><?php echo $pokemon->getSpAtk() ?></td>
                     <td><?php echo $pokemon->getSpDef() ?></td>
                     <td><?php echo $pokemon->getSpd() ?></td>
-                    <td><a href="lomake2.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
+                    <td><a href="lajiLomake.php?toiminto=muokkaa&id=<?php echo $pokemon->getId() ?>">Muokkaa</a></td>
                     <td><a href="poistoControl.php?id=<?php echo $pokemon->getId() ?>">Poista</a></td>
                 </tr>
 

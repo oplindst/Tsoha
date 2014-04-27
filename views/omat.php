@@ -17,6 +17,8 @@
 <div class="container">
     <h1>Omat Pokemonit</h1>
 
+    <h4>Täällä voit tarkastella, lisätä, muokata tai poistaa omia Pokemonejasi. Näet enemmän yksityiskohtia Pokemoneistasi
+    muokkausvalikossa.</h4>
     <form class="form-horizontal" role="form" action="tiimit.php" method="POST">
         <div class="form-group">
             <div class="col-md-offset-5 col-md-10">

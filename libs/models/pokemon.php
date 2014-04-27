@@ -14,7 +14,11 @@ class Pokemon {
     private $SpAtk;
     private $SpDef;
     private $Spd;
+    private $IVs;
+    private $EVs;
+    private $nature;
     private $omistaja;
+    private $kommentti;
     private $virheet = array();
 
     public function __construct($param) {
@@ -47,14 +51,14 @@ class Pokemon {
 
     public static function etsiPokemon($id) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "select * from Pokemon where id = ?";
+        $sql = "select * from Pokemon where pokeid = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         $tulokset = array();
         
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $pokemon = new Pokemon();
-            $pokemon->setId($tulos->id);
+            $pokemon->setId($tulos->pokeid);
             $pokemon->setLaji($tulos->laji);
             $pokemon->setName($tulos->nimi);
             $pokemon->setTaso($tulos->taso);
@@ -64,6 +68,10 @@ class Pokemon {
             $pokemon->setSpAtk($tulos->spatk);
             $pokemon->setSpDef($tulos->spdef);
             $pokemon->setSpd($tulos->spd);
+            $pokemon->setIVs(array($tulos->hpiv, $tulos->atkiv, $tulos->defiv, $tulos->spatkiv, $tulos->spdefiv, $tulos->spdiv));
+            $pokemon->setEVs(array($tulos->hpev, $tulos->atkev, $tulos->defev, $tulos->spatkev, $tulos->spdefev, $tulos->spdev));
+            $pokemon->setNature($tulos->nature);
+            $pokemon->setKommentti($tulos->kommentti);
             $tulokset[] = $pokemon;
         }
         return $tulokset[0];
@@ -124,6 +132,7 @@ class Pokemon {
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $pokemon = new Pokemon();
+            $pokemon->setId($tulos->pokeid);
             $pokemon->setLaji($tulos->laji);
             $pokemon->setName($tulos->nimi);
             $pokemon->setTaso($tulos->taso);
@@ -163,23 +172,35 @@ class Pokemon {
 
     public function lisaaKantaan($omistaja) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "Insert into Pokemon (laji, nimi, taso, hp, atk, def, spatk, spdef, spd, omistaja) Values (?,?,?,?,?,?,?,?,?,?)";
+        $sql = "Insert into Pokemon (laji, nimi, taso, hp, atk, def, spatk, spdef, spd, hpiv, atkiv, defiv, spatkiv, spdefiv, spdiv, hpev, atkev, defev, spatkev, spdefev, spdev, nature, kommentti, omistaja) Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd, $omistaja));
+        $param = array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd);
+        $merge1 = array_merge($param, $this->IVs);
+        $merge2 = array_merge($merge1, $this->EVs);
+        $merge2[] = $this->nature;
+        $merge2[] = $this->kommentti;
+        $merge2[] = $omistaja;
+        $kysely->execute($merge2);
     }
 
     public static function poistaKannasta($id) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "DELETE FROM Pokemon WHERE ID = ?";
+        $sql = "DELETE FROM Pokemon WHERE pokeid = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
     }
 
     public function paivita($id) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "UPDATE Pokemon SET laji = ?, Nimi = ?, Taso = ?, HP = ?, Atk = ?, Def = ?, SpAtk = ?, SpDef = ?, Spd = ? WHERE ID = ?";
+        $sql = "UPDATE Pokemon SET laji = ?, Nimi = ?, Taso = ?, HP = ?, Atk = ?, Def = ?, SpAtk = ?, SpDef = ?, Spd = ?, hpiv = ?, atkiv = ?, defiv = ?, spatkiv = ?, spdefiv = ?, spdiv = ?, hpev = ?, atkev = ?, defev = ?, spatkev = ?, spdefev = ?, spdev = ?, nature = ?, kommentti = ? WHERE pokeid = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd, $id));
+        $param = array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd);
+        $merge1 = array_merge($param, $this->IVs);
+        $merge2 = array_merge($merge1, $this->EVs);
+        $merge2[] = $this->nature;
+        $merge2[] = $this->kommentti;
+        $merge2[] = $id;
+        $kysely->execute($merge2);
     }
 
     public function getName() {
@@ -199,6 +220,22 @@ class Pokemon {
             unset($this->virheet['nimi']);
         }
     }
+    
+    public function getKommentti() {
+        return $this->kommentti;
+    }
+    
+    public function setKommentti($kommentti) {
+        $this->kommentti = $kommentti;
+
+        if (htmlspecialchars($kommentti) !== $kommentti) {
+            $this->virheet['kommentti'] = "Erikoismerkit kielletty";
+        } else if (strlen($kommentti) > 50) {
+            $this->virheet['kommentti'] = "Kommentin pitää olla 50 merkkiä tai alle.";
+        } else {
+            unset($this->virheet['kommentti']);
+        }
+    }
 
     public function getLaji() {
         return $this->Laji;
@@ -213,7 +250,7 @@ class Pokemon {
         } else if ($laji > 718) {
             $this->virheet['laji'] = "Lajinumeron pitää olla 718 tai pienempi";
         } else if (Pokemonlaji::etsiPokemon($laji)==null) {
-            $this->virheet['olemassa'] = "Lajia ei ole olemassa";
+            $this->virheet['laji'] = "Lajia ei ole olemassa vielä";
         } else {
             unset($this->virheet['laji']);
         }
@@ -329,6 +366,30 @@ class Pokemon {
         } else {
             unset($this->virheet['spd']);
         }
+    }
+    
+    public function getIVs() {
+        return $this->IVs;
+    }
+    
+    public function setIVs($ivs = array()) {
+        $this->IVs = $ivs;
+    }
+    
+    public function getEVs() {
+        return $this->EVs;
+    }
+    
+    public function setEVs($evs = array()) {
+        $this->EVs = $evs;
+    }
+    
+    public function getNature() {
+        return $this->nature;
+    }
+    
+    public function setNature($nature) {
+        $this->nature = $nature;
     }
 
     public function onkoKelvollinen() {

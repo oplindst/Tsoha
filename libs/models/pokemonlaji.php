@@ -35,7 +35,7 @@ class Pokemonlaji {
 
     public function setId($id) {
         $this->ID = $id;
-        
+
         if (!preg_match('/^\d+$/', $id)) {
             $this->virheet['id'] = "ID:n pitää olla positiivinen numero.";
         } else if ($id > 2000) {
@@ -54,24 +54,10 @@ class Pokemonlaji {
 
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {
+            echo 'joo';
             return null;
         }
-
-        foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $laji = new Pokemonlaji();
-            $laji->setId($tulos->id);
-            $laji->setName($tulos->nimi);
-            $laji->setType1($tulos->type1);
-            $laji->setType2($tulos->type2);
-            $laji->setHP($tulos->bhp);
-            $laji->setAtk($tulos->batk);
-            $laji->setDef($tulos->bdef);
-            $laji->setSpAtk($tulos->bspatk);
-            $laji->setSpDef($tulos->bspdef);
-            $laji->setSpd($tulos->bspd);
-            $tulokset[] = $laji;
-        }
-        return $tulokset[0];
+        return $tulos;
     }
 
     public static function etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd) {
@@ -145,7 +131,7 @@ class Pokemonlaji {
 
     public static function etsiKaikkiPokemonit($order) {
 
-        $sql = "select * from Pokemonlaji Order By ".$order. ", id";
+        $sql = "select * from Pokemonlaji Order By " . $order . ", id";
         $kysely = kaytaTietokantaa($sql);
 
         $tulokset = array();
@@ -184,7 +170,7 @@ class Pokemonlaji {
 
     public function setName($nimi) {
         $this->Nimi = $nimi;
-        
+
         if (trim($nimi) === '') {
             $this->virheet['nimi'] = "Nimi ei saa olla tyhjä";
         } else if (htmlspecialchars($nimi) !== $nimi) {
@@ -223,8 +209,7 @@ class Pokemonlaji {
             $this->virheet['hp'] = "Base HP:n pitää olla positiivinen numero.";
         } else if ($hp > 255) {
             $this->virheet['hp'] = "Base HP:n pitää olla 255 tai pienempi";
-        }
-        else {
+        } else {
             unset($this->virheet['hp']);
         }
     }
@@ -235,7 +220,7 @@ class Pokemonlaji {
 
     public function setAtk($atk) {
         $this->BAtk = $atk;
-        
+
         if (!preg_match('/^\d+$/', $atk)) {
             $this->virheet['atk'] = "Base Attackin pitää olla positiivinen numero.";
         } else if ($atk > 255) {
@@ -251,7 +236,7 @@ class Pokemonlaji {
 
     public function setDef($def) {
         $this->BDef = $def;
-        
+
         if (!preg_match('/^\d+$/', $def)) {
             $this->virheet['def'] = "Base Defensen pitää olla positiivinen numero.";
         } else if ($def > 255) {
@@ -267,7 +252,7 @@ class Pokemonlaji {
 
     public function setSpAtk($spatk) {
         $this->BSpAtk = $spatk;
-        
+
         if (!preg_match('/^\d+$/', $spatk)) {
             $this->virheet['spatk'] = "Base Sp. Attackin pitää olla positiivinen numero.";
         } else if ($spatk > 255) {
@@ -283,7 +268,7 @@ class Pokemonlaji {
 
     public function setSpDef($spdef) {
         $this->BSpDef = $spdef;
-        
+
         if (!preg_match('/^\d+$/', $spdef)) {
             $this->virheet['spdef'] = "Base Sp. Defensen pitää olla positiivinen numero.";
         } else if ($spdef > 255) {
@@ -299,7 +284,7 @@ class Pokemonlaji {
 
     public function setSpd($spd) {
         $this->BSpd = $spd;
-        
+
         if (!preg_match('/^\d+$/', $spd)) {
             $this->virheet['spd'] = "Base Speedin pitää olla positiivinen numero.";
         } else if ($spd > 255) {
@@ -316,7 +301,7 @@ class Pokemonlaji {
     public function getVirheet() {
         return $this->virheet;
     }
-    
+
     public function poistaVirheitaHakuaVarten() {
         if ($this->BHP === '') {
             unset($this->virheet['hp']);

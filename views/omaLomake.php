@@ -7,6 +7,9 @@
             </div>
         </div>
     </form>
+    
+    <h4>Täytä Pokemonisi tiedot tähän. Katso tarvittaessa lisätietoa <a href="http://bulbapedia.bulbagarden.net/wiki/IV">IV</a>- <a href="ja http://bulbapedia.bulbagarden.net/wiki/EV">EV</a>-arvoista ja <a href="http://bulbapedia.bulbagarden.net/wiki/Nature">Natureista</a>. </h4>
+    <h4>Kaikkien Pokemonlajien tietoja ei välttämättä löydy tietokannasta, tällaista et siis pysty lisäämään itsellesi. </h4>
 
     <form class = "form-horizontal" role = "form" action = "omaLomakeControl.php" method = "POST">
         <div class = "form-group">
@@ -21,7 +24,7 @@
                 <input type = "text" class = "form-control" id = "inputPassword1" name = "Nimi" value = <?php echo $data->nimi; ?>>
             </div>
         </div>
-        
+
         <div class = "form-group">
             <label for = "inputPassword1" class = "col-md-2 control-label">Taso (1-100)</label>
             <div class = "col-md-10">
@@ -68,6 +71,65 @@
             <label for = "inputPassword2" class = "col-md-2 control-label">Speed (1-1000)</label>
             <div class = "col-md-10">
                 <input type = "text" class = "form-control" id = "inputPassword2" name = "Speed" value = <?php echo $data->spd; ?>>
+            </div>
+        </div>
+
+        <?php foreach ($data->ivvalues as $label => $value): ?>
+            <div class = "form-group">
+                <label for = "inputIVs" class = "col-md-2 control-label"><?php echo $label; ?></label>
+                <div class = "col-md-10">
+                    <select name = "<?php echo $label; ?>">
+                        <?php if ($data->otsikko === 'Muokkaa' || !empty($data->virheet)) : ?>
+                            <option selected ="<?php echo $data->ivvalues[$label]; ?>"><?php echo $data->ivvalues[$label]; ?></option>
+                        <?php endif; ?>
+                        <?php for ($x = 0; $x <= 31; $x++) : ?>
+                            <option value = "<?php echo $x; ?>"><?php echo $x; ?></option>
+                        <?php endfor; ?>
+
+
+                    </select>
+                </div>
+            </div>
+        <?php endforeach ?>
+
+        <?php foreach ($data->evvalues as $label => $value): ?>
+            <div class = "form-group">
+                <label for = "inputEVs" class = "col-md-2 control-label"><?php echo $label; ?></label>
+                <div class = "col-md-10">
+                    <select name = "<?php echo $label; ?>">
+                        <?php if ($data->otsikko === 'Muokkaa' || !empty($data->virheet)) : ?>
+                            <option selected ="<?php echo $value; ?>"><?php echo $value; ?></option>
+                        <?php endif; ?>
+                        <?php for ($x = 0; $x <= 255; $x++) : ?>
+                            <option value = "<?php echo $x; ?>"><?php echo $x; ?></option>
+                        <?php endfor; ?>
+
+
+                    </select>
+                </div>
+            </div>
+        <?php endforeach ?>
+
+        <div class = "form-group">
+            <label for = "inputPassword1" class = "col-md-2 control-label">Nature</label>
+            <div class = "col-md-10">
+                <select name = "Nature">
+                    <?php if ($data->otsikko === 'Muokkaa' || !empty($data->virheet)) : ?>
+                        <option selected ="<?php echo $data->nature; ?>"><?php echo $data->nature; ?></option>
+                    <?php endif; ?>
+                    <?php foreach ($data->natures as $nature) : ?>
+                        <option value = "<?php echo $nature; ?>"><?php echo $nature; ?></option>
+                    <?php endforeach; ?>
+
+
+                </select>
+            </div>
+        </div>
+
+        <div class = "form-group">
+            <label for = "inputPassword1" class = "col-md-2 control-label">Kommentti (Max. 50 merkkiä)</label>
+            <div class = "col-md-10">
+                <input type = "text" class = "form-control" id = "inputPassword1" name = "Kommentti" value =<?php echo $data->kommentti; ?>>
             </div>
         </div>
 

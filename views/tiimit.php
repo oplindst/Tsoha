@@ -18,6 +18,7 @@
 <div class="container">
     <h1>Omat Tiimit</h1>
 
+    <h4>Täällä voit luoda enintään kuuden Pokemonin kokoisia tiimejä taisteluita varten</h4>
     <form class = "form-horizontal" role = "form" action = "uusiTiimi.php" method = "POST">
         <div class = "form-group">
             <label for = "inputUusiTiimi" class = "col-md-2 control-label"></label>

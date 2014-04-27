@@ -7,11 +7,11 @@ kirjautunut();
 $omistaja = $_SESSION['kirjautunut'];
 if (!isset($_GET['order'])) {
     $order = 'Laji';
-}
-else {
+} else {
     $order = $_GET['order'];
 }
 $pokemonit = Pokemon::etsiKaikkiPokemonit($omistaja, $order);
+
 
 naytaNakyma('omat.php', array('pokemonit' => $pokemonit));
 
