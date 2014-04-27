@@ -37,7 +37,7 @@ function admin() {
 
 function kokoaParametrit($tulos) {
     $param = array();
-    $ID = $tulos->id;
+    $ID = $tulos->pokeid;
     $param[] = $ID;
     $Nimi = $tulos->nimi;
     $param[] = $Nimi;

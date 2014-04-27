@@ -165,6 +165,7 @@ class Pokemon {
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $param = kokoaPokemonParametrit($tulos);
             $pokemon = new Pokemon($param);
+            $pokemon->setId($tulos->pokeid);
             $tulokset[] = $pokemon;
         }
         return $tulokset;
