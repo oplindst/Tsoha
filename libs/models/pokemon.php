@@ -1,25 +1,26 @@
 <?php
 
 require_once 'libs/functions.php';
+require_once 'libs/models/haettava.php';
 
-class Pokemon {
+class Pokemon extends Haettava {
 
     private $ID;
     private $Laji;
     private $Nimi;
     private $Taso;
-    private $HP;
-    private $Atk;
-    private $Def;
-    private $SpAtk;
-    private $SpDef;
-    private $Spd;
+    public $HP;
+    public $Atk;
+    public $Def;
+    public $SpAtk;
+    public $SpDef;
+    public $Spd;
     private $IVs;
     private $EVs;
     private $nature;
     private $omistaja;
     private $kommentti;
-    private $virheet = array();
+    public $virheet = array();
 
     public function __construct($param) {
         $this->ID = $param[0];
@@ -55,98 +56,72 @@ class Pokemon {
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         $tulokset = array();
-        
+
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $pokemon = new Pokemon();
-            $pokemon->setId($tulos->pokeid);
-            $pokemon->setLaji($tulos->laji);
-            $pokemon->setName($tulos->nimi);
-            $pokemon->setTaso($tulos->taso);
-            $pokemon->setHP($tulos->hp);
-            $pokemon->setAtk($tulos->atk);
-            $pokemon->setDef($tulos->def);
-            $pokemon->setSpAtk($tulos->spatk);
-            $pokemon->setSpDef($tulos->spdef);
-            $pokemon->setSpd($tulos->spd);
-            $pokemon->setIVs(array($tulos->hpiv, $tulos->atkiv, $tulos->defiv, $tulos->spatkiv, $tulos->spdefiv, $tulos->spdiv));
-            $pokemon->setEVs(array($tulos->hpev, $tulos->atkev, $tulos->defev, $tulos->spatkev, $tulos->spdefev, $tulos->spdev));
-            $pokemon->setNature($tulos->nature);
-            $pokemon->setKommentti($tulos->kommentti);
-            $tulokset[] = $pokemon;
+            $tulokset[] = uusiPokemon($tulos);
         }
         return $tulokset[0];
     }
 
     public static function etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd, $id) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "";
+        $sql = "Select * from Pokemon, Pokemonlaji where ";
         $parametrit = array();
         if ($nimi !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Pokemon.Nimi ILIKE ? INTERSECT ";
+            $sql .= "Pokemon.Nimi ILIKE ? AND";
             $parametrit[] = '%' . $nimi . '%';
         }
         if ($type1 !== '-' && $type2 !== '-') {
-            $sql .= "Select * from Pokemon, Pokemonlaji where (Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?) INTERSECT ";
+            $sql .= "((Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?)) AND ";
             $parametrit[] = $type1;
             $parametrit[] = $type2;
             $parametrit[] = $type1;
             $parametrit[] = $type2;
         } else if ($type1 !== '-' && $type2 === '-') {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
+            $sql .= "(Type1 = ? OR Type2 = ?) AND ";
             $parametrit[] = $type1;
             $parametrit[] = $type1;
         } else if ($type1 === '-' && $type2 !== '-') {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
+            $sql .= "(Type1 = ? OR Type2 = ?) AND ";
             $parametrit[] = $type2;
             $parametrit[] = $type2;
         }
         if ($hp !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where HP >= ? INTERSECT ";
+            $sql .= "HP >= ? AND ";
             $parametrit[] = $hp;
         }
         if ($atk !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Atk >= ? INTERSECT ";
+            $sql .= "Atk >= ? AND ";
             $parametrit[] = $atk;
         }
         if ($def !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Def >= ? INTERSECT ";
+            $sql .= "Def >= ? AND ";
             $parametrit[] = $def;
         }
         if ($spatk !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where SpAtk >= ? INTERSECT ";
+            $sql .= "SpAtk >= ? AND ";
             $parametrit[] = $spatk;
         }
         if ($spdef !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where SpDef >= ? INTERSECT ";
+            $sql .= "SpDef >= ? AND ";
             $parametrit[] = $spdef;
         }
         if ($spd !== "") {
-            $sql .= "Select * from Pokemon, Pokemonlaji where Spd >= ? INTERSECT ";
+            $sql .= "Spd >= ? AND ";
             $parametrit[] = $spd;
         }
-        $sql .= "Select * from Pokemon, Pokemonlaji where Omistaja = ? AND Pokemon.laji = Pokemonlaji.id Order by Pokemonlaji.id";
+        $sql .= "Omistaja = ? AND Pokemon.laji = Pokemonlaji.id Order by Pokemonlaji.id";
         $parametrit[] = $id;
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute($parametrit);
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $pokemon = new Pokemon();
-            $pokemon->setId($tulos->pokeid);
-            $pokemon->setLaji($tulos->laji);
-            $pokemon->setName($tulos->nimi);
-            $pokemon->setTaso($tulos->taso);
-            $pokemon->setHP($tulos->hp);
-            $pokemon->setAtk($tulos->atk);
-            $pokemon->setDef($tulos->def);
-            $pokemon->setSpAtk($tulos->spatk);
-            $pokemon->setSpDef($tulos->spdef);
-            $pokemon->setSpd($tulos->spd);
-            $tulokset[] = $pokemon;
+            $tulokset[] = uusiPokemon($tulos);
         }
         return $tulokset;
     }
-    
+
     public static function haeTiiminPokemonit($id_lista) {
         $pokemonit = array();
         foreach ($id_lista as $id) {
@@ -158,15 +133,12 @@ class Pokemon {
     public static function etsiKaikkiPokemonit($omistaja, $order) {
         require_once "libs/tietokantayhteys.php";
         $param = array();
-        $sql = "select * from Pokemon where Omistaja = ? order by ".$order. ", laji";
+        $sql = "select * from Pokemon where Omistaja = ? order by " . $order . ", laji";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($omistaja));
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $param = kokoaPokemonParametrit($tulos);
-            $pokemon = new Pokemon($param);
-            $pokemon->setId($tulos->pokeid);
-            $tulokset[] = $pokemon;
+            $tulokset[] = uusiPokemon($tulos);
         }
         return $tulokset;
     }
@@ -175,13 +147,9 @@ class Pokemon {
         require_once "libs/tietokantayhteys.php";
         $sql = "Insert into Pokemon (laji, nimi, taso, hp, atk, def, spatk, spdef, spd, hpiv, atkiv, defiv, spatkiv, spdefiv, spdiv, hpev, atkev, defev, spatkev, spdefev, spdev, nature, kommentti, omistaja) Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $param = array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd);
-        $merge1 = array_merge($param, $this->IVs);
-        $merge2 = array_merge($merge1, $this->EVs);
-        $merge2[] = $this->nature;
-        $merge2[] = $this->kommentti;
-        $merge2[] = $omistaja;
-        $kysely->execute($merge2);
+        $param = $this->kokoaPaivitysparametrit();
+        $param[] = $omistaja;
+        $kysely->execute($param);
     }
 
     public static function poistaKannasta($id) {
@@ -195,13 +163,9 @@ class Pokemon {
         require_once "libs/tietokantayhteys.php";
         $sql = "UPDATE Pokemon SET laji = ?, Nimi = ?, Taso = ?, HP = ?, Atk = ?, Def = ?, SpAtk = ?, SpDef = ?, Spd = ?, hpiv = ?, atkiv = ?, defiv = ?, spatkiv = ?, spdefiv = ?, spdiv = ?, hpev = ?, atkev = ?, defev = ?, spatkev = ?, spdefev = ?, spdev = ?, nature = ?, kommentti = ? WHERE pokeid = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $param = array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd);
-        $merge1 = array_merge($param, $this->IVs);
-        $merge2 = array_merge($merge1, $this->EVs);
-        $merge2[] = $this->nature;
-        $merge2[] = $this->kommentti;
-        $merge2[] = $id;
-        $kysely->execute($merge2);
+        $param = $this->kokoaPaivitysparametrit();
+        $param[] = $id;
+        $kysely->execute($param);
     }
 
     public function getName() {
@@ -221,11 +185,11 @@ class Pokemon {
             unset($this->virheet['nimi']);
         }
     }
-    
+
     public function getKommentti() {
         return $this->kommentti;
     }
-    
+
     public function setKommentti($kommentti) {
         $this->kommentti = $kommentti;
 
@@ -245,12 +209,12 @@ class Pokemon {
     public function setLaji($laji) {
         $this->Laji = $laji;
         require_once "libs/models/pokemonlaji.php";
-        
+
         if (!preg_match('/^\d+$/', $laji)) {
             $this->virheet['laji'] = "Lajinumeron pitää olla positiivinen numero.";
         } else if ($laji > 718) {
             $this->virheet['laji'] = "Lajinumeron pitää olla 718 tai pienempi";
-        } else if (Pokemonlaji::etsiPokemon($laji)==null) {
+        } else if (Pokemonlaji::etsiPokemon($laji) == null) {
             $this->virheet['laji'] = "Lajia ei ole olemassa vielä";
         } else {
             unset($this->virheet['laji']);
@@ -263,7 +227,7 @@ class Pokemon {
 
     public function setTaso($taso) {
         $this->Taso = $taso;
-        
+
         if (!preg_match('/^\d+$/', $taso)) {
             $this->virheet['taso'] = "Taso pitää olla positiivinen numero.";
         } else if ($taso > 100) {
@@ -368,27 +332,27 @@ class Pokemon {
             unset($this->virheet['spd']);
         }
     }
-    
+
     public function getIVs() {
         return $this->IVs;
     }
-    
+
     public function setIVs($ivs = array()) {
         $this->IVs = $ivs;
     }
-    
+
     public function getEVs() {
         return $this->EVs;
     }
-    
+
     public function setEVs($evs = array()) {
         $this->EVs = $evs;
     }
-    
+
     public function getNature() {
         return $this->nature;
     }
-    
+
     public function setNature($nature) {
         $this->nature = $nature;
     }
@@ -401,57 +365,14 @@ class Pokemon {
         return $this->virheet;
     }
 
-    public function poistaVirheitaHakuaVarten() {
-        if ($this->HP === '') {
-            unset($this->virheet['hp']);
-        }
-        if ($this->Atk === '') {
-            unset($this->virheet['atk']);
-        }
-        if ($this->Def === '') {
-            unset($this->virheet['def']);
-        }
-        if ($this->SpAtk === '') {
-            unset($this->virheet['spatk']);
-        }
-        if ($this->SpDef === '') {
-            unset($this->virheet['spdef']);
-        }
-        if ($this->Spd === '') {
-            unset($this->virheet['spd']);
-        }
-        if (preg_match('/^\d+$/', $this->HP)) {
-            if ($this->HP > 255) {
-                unset($this->virheet['hp']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->Atk)) {
-            if ($this->Atk > 255) {
-                unset($this->virheet['atk']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->Def)) {
-            if ($this->Def > 255) {
-                unset($this->virheet['def']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->SpAtk)) {
-            if ($this->SpAtk > 255) {
-                unset($this->virheet['spatk']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->SpDef)) {
-            if ($this->SpDef > 255) {
-                unset($this->virheet['spdef']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->Spd)) {
-            if ($this->Spd > 255) {
-                unset($this->virheet['spd']);
-            }
-        }
+    private function kokoaPaivitysparametrit() {
+        $param = array($this->Laji, $this->Nimi, $this->Taso, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd);
+        $merge1 = array_merge($param, $this->IVs);
+        $merge2 = array_merge($merge1, $this->EVs);
+        $merge2[] = $this->nature;
+        $merge2[] = $this->kommentti;
+        return $merge2;
     }
-
 }
 ?>
 

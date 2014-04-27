@@ -1,32 +1,33 @@
 <?php
 
 require_once 'libs/functions.php';
+require_once 'libs/models/haettava.php';
 
-class Pokemonlaji {
+class Pokemonlaji extends Haettava {
 
     private $ID;
     private $Nimi;
     private $Type1;
     private $Type2;
-    private $BHP;
-    private $BAtk;
-    private $BDef;
-    private $BSpAtk;
-    private $BSpDef;
-    private $BSpd;
-    private $virheet = array();
+    public $HP;
+    public $Atk;
+    public $Def;
+    public $SpAtk;
+    public $SpDef;
+    public $Spd;
+    public $virheet = array();
 
     public function __construct($param) {
         $this->ID = $param[0];
         $this->Nimi = $param[1];
         $this->Type1 = $param[2];
         $this->Type2 = $param[3];
-        $this->BHP = $param[4];
-        $this->BAtk = $param[5];
-        $this->BDef = $param[6];
-        $this->BSpAtk = $param[7];
-        $this->BSpDef = $param[8];
-        $this->BSpd = $param[9];
+        $this->HP = $param[4];
+        $this->Atk = $param[5];
+        $this->Def = $param[6];
+        $this->SpAtk = $param[7];
+        $this->SpDef = $param[8];
+        $this->Spd = $param[9];
     }
 
     public function getId() {
@@ -50,7 +51,6 @@ class Pokemonlaji {
         $sql = "select * from Pokemonlaji where id = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
-        $tulokset = array();
 
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {
@@ -62,69 +62,58 @@ class Pokemonlaji {
 
     public static function etsiPokemoneja($nimi, $type1, $type2, $hp, $atk, $def, $spatk, $spdef, $spd) {
         require_once "libs/tietokantayhteys.php";
-        $sql = "";
+        $sql = "Select * from Pokemonlaji where ";
         $parametrit = array();
         if ($nimi !== "") {
-            $sql .= "Select * from Pokemonlaji where Nimi ILIKE ? INTERSECT ";
+            $sql .= "Nimi ILIKE ? AND ";
             $parametrit[] = '%' . $nimi . '%';
         }
         if ($type1 !== '-' && $type2 !== '-') {
-            $sql .= "Select * from Pokemonlaji where (Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?) INTERSECT ";
+            $sql .= "((Type1 = ? AND Type2 = ?) OR (Type2 = ? AND Type1 = ?)) and ";
             $parametrit[] = $type1;
             $parametrit[] = $type2;
             $parametrit[] = $type1;
             $parametrit[] = $type2;
         } else if ($type1 !== '-' && $type2 === '-') {
-            $sql .= "Select * from Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
+            $sql .= "(Type1 = ? OR Type2 = ?) and ";
             $parametrit[] = $type1;
             $parametrit[] = $type1;
         } else if ($type1 === '-' && $type2 !== '-') {
-            $sql .= "Select * from Pokemonlaji where Type1 = ? OR Type2 = ? INTERSECT ";
+            $sql .= "(Type1 = ? OR Type2 = ?) and ";
             $parametrit[] = $type2;
             $parametrit[] = $type2;
         }
         if ($hp !== "") {
-            $sql .= "Select * from Pokemonlaji where BHP >= ? INTERSECT ";
+            $sql .= "BHP >= ? and ";
             $parametrit[] = $hp;
         }
         if ($atk !== "") {
-            $sql .= "Select * from Pokemonlaji where BAtk >= ? INTERSECT ";
+            $sql .= "BAtk >= ? and ";
             $parametrit[] = $atk;
         }
         if ($def !== "") {
-            $sql .= "Select * from Pokemonlaji where BDef >= ? INTERSECT ";
+            $sql .= "BDef >= ? and ";
             $parametrit[] = $def;
         }
         if ($spatk !== "") {
-            $sql .= "Select * from Pokemonlaji where BSpAtk >= ? INTERSECT ";
+            $sql .= "BSpAtk >= ? and ";
             $parametrit[] = $spatk;
         }
         if ($spdef !== "") {
-            $sql .= "Select * from Pokemonlaji where BSpDef >= ? INTERSECT ";
+            $sql .= "BSpDef >= ? and ";
             $parametrit[] = $spdef;
         }
         if ($spd !== "") {
-            $sql .= "Select * from Pokemonlaji where BSpd >= ? INTERSECT ";
+            $sql .= "BSpd >= ? and ";
             $parametrit[] = $spd;
         }
-        $sql .= "Select * from Pokemonlaji order by id";
+        $sql .= "id >= 0 order by id";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
         $kysely->execute($parametrit);
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $laji = new Pokemonlaji();
-            $laji->setId($tulos->id);
-            $laji->setName($tulos->nimi);
-            $laji->setType1($tulos->type1);
-            $laji->setType2($tulos->type2);
-            $laji->setHP($tulos->bhp);
-            $laji->setAtk($tulos->batk);
-            $laji->setDef($tulos->bdef);
-            $laji->setSpAtk($tulos->bspatk);
-            $laji->setSpDef($tulos->bspdef);
-            $laji->setSpd($tulos->bspd);
-            $tulokset[] = $laji;
+            $tulokset[] = uusiLaji($tulos);
         }
         return $tulokset;
     }
@@ -136,9 +125,7 @@ class Pokemonlaji {
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $param = kokoaParametrit($tulos);
-            $laji = new Pokemonlaji($param);
-            $tulokset[] = $laji;
+            $tulokset[] = uusiLaji($tulos);
         }
         return $tulokset;
     }
@@ -147,7 +134,7 @@ class Pokemonlaji {
         require_once "libs/tietokantayhteys.php";
         $sql = "Insert into Pokemonlaji Values (?,?,?,?,?,?,?,?,?,?)";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd));
+        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd));
     }
 
     public static function poistaKannasta($id) {
@@ -161,7 +148,7 @@ class Pokemonlaji {
         require_once "libs/tietokantayhteys.php";
         $sql = "UPDATE Pokemonlaji SET ID = ?, Nimi = ?, Type1 = ?, Type2 = ?, BHP = ?, BAtk = ?, BDef = ?, BSpAtk = ?, BSpDef = ?, BSpd = ? WHERE ID = ?";
         $kysely = Yhteys::getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->BHP, $this->BAtk, $this->BDef, $this->BSpAtk, $this->BSpDef, $this->BSpd, $vanhaid));
+        $kysely->execute(array($this->ID, $this->Nimi, $this->Type1, $this->Type2, $this->HP, $this->Atk, $this->Def, $this->SpAtk, $this->SpDef, $this->Spd, $vanhaid));
     }
 
     public function getName() {
@@ -199,11 +186,11 @@ class Pokemonlaji {
     }
 
     public function getHP() {
-        return $this->BHP;
+        return $this->HP;
     }
 
     public function setHP($hp) {
-        $this->BHP = $hp;
+        $this->HP = $hp;
 
         if (!preg_match('/^\d+$/', $hp)) {
             $this->virheet['hp'] = "Base HP:n pitää olla positiivinen numero.";
@@ -215,11 +202,11 @@ class Pokemonlaji {
     }
 
     public function getAtk() {
-        return $this->BAtk;
+        return $this->Atk;
     }
 
     public function setAtk($atk) {
-        $this->BAtk = $atk;
+        $this->Atk = $atk;
 
         if (!preg_match('/^\d+$/', $atk)) {
             $this->virheet['atk'] = "Base Attackin pitää olla positiivinen numero.";
@@ -231,11 +218,11 @@ class Pokemonlaji {
     }
 
     public function getDef() {
-        return $this->BDef;
+        return $this->Def;
     }
 
     public function setDef($def) {
-        $this->BDef = $def;
+        $this->Def = $def;
 
         if (!preg_match('/^\d+$/', $def)) {
             $this->virheet['def'] = "Base Defensen pitää olla positiivinen numero.";
@@ -247,11 +234,11 @@ class Pokemonlaji {
     }
 
     public function getSpAtk() {
-        return $this->BSpAtk;
+        return $this->SpAtk;
     }
 
     public function setSpAtk($spatk) {
-        $this->BSpAtk = $spatk;
+        $this->SpAtk = $spatk;
 
         if (!preg_match('/^\d+$/', $spatk)) {
             $this->virheet['spatk'] = "Base Sp. Attackin pitää olla positiivinen numero.";
@@ -263,11 +250,11 @@ class Pokemonlaji {
     }
 
     public function getSpDef() {
-        return $this->BSpDef;
+        return $this->SpDef;
     }
 
     public function setSpDef($spdef) {
-        $this->BSpDef = $spdef;
+        $this->SpDef = $spdef;
 
         if (!preg_match('/^\d+$/', $spdef)) {
             $this->virheet['spdef'] = "Base Sp. Defensen pitää olla positiivinen numero.";
@@ -279,11 +266,11 @@ class Pokemonlaji {
     }
 
     public function getSpd() {
-        return $this->BSpd;
+        return $this->Spd;
     }
 
     public function setSpd($spd) {
-        $this->BSpd = $spd;
+        $this->Spd = $spd;
 
         if (!preg_match('/^\d+$/', $spd)) {
             $this->virheet['spd'] = "Base Speedin pitää olla positiivinen numero.";
@@ -300,57 +287,6 @@ class Pokemonlaji {
 
     public function getVirheet() {
         return $this->virheet;
-    }
-
-    public function poistaVirheitaHakuaVarten() {
-        if ($this->BHP === '') {
-            unset($this->virheet['hp']);
-        }
-        if ($this->BAtk === '') {
-            unset($this->virheet['atk']);
-        }
-        if ($this->BDef === '') {
-            unset($this->virheet['def']);
-        }
-        if ($this->BSpAtk === '') {
-            unset($this->virheet['spatk']);
-        }
-        if ($this->BSpDef === '') {
-            unset($this->virheet['spdef']);
-        }
-        if ($this->BSpd === '') {
-            unset($this->virheet['spd']);
-        }
-        if (preg_match('/^\d+$/', $this->BHP)) {
-            if ($this->BHP > 255) {
-                unset($this->virheet['hp']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->BAtk)) {
-            if ($this->BAtk > 255) {
-                unset($this->virheet['atk']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->BDef)) {
-            if ($this->BDef > 255) {
-                unset($this->virheet['def']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->BSpAtk)) {
-            if ($this->BSpAtk > 255) {
-                unset($this->virheet['spatk']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->BSpDef)) {
-            if ($this->BSpDef > 255) {
-                unset($this->virheet['spdef']);
-            }
-        }
-        if (preg_match('/^\d+$/', $this->BSpd)) {
-            if ($this->BSpd > 255) {
-                unset($this->virheet['spd']);
-            }
-        }
     }
 
 }

@@ -23,8 +23,6 @@ function kirjautunut() {
     return false;
 }
 
-
-
 function admin() {
     if (isset($_SESSION["kirjautunut"])) {
         if ($_SESSION["kirjautunut"] == 1) {
@@ -83,4 +81,38 @@ function kokoaPokemonParametrit($tulos) {
     $Spd = $tulos->spd;
     $param[] = $Spd;
     return $param;
+}
+
+function uusiLaji($tulos) {
+    $laji = new Pokemonlaji();
+    $laji->setId($tulos->id);
+    $laji->setName($tulos->nimi);
+    $laji->setType1($tulos->type1);
+    $laji->setType2($tulos->type2);
+    $laji->setHP($tulos->bhp);
+    $laji->setAtk($tulos->batk);
+    $laji->setDef($tulos->bdef);
+    $laji->setSpAtk($tulos->bspatk);
+    $laji->setSpDef($tulos->bspdef);
+    $laji->setSpd($tulos->bspd);
+    return $laji;
+}
+
+function uusiPokemon($tulos) {
+    $pokemon = new Pokemon();
+    $pokemon->setId($tulos->pokeid);
+    $pokemon->setLaji($tulos->laji);
+    $pokemon->setName($tulos->nimi);
+    $pokemon->setTaso($tulos->taso);
+    $pokemon->setHP($tulos->hp);
+    $pokemon->setAtk($tulos->atk);
+    $pokemon->setDef($tulos->def);
+    $pokemon->setSpAtk($tulos->spatk);
+    $pokemon->setSpDef($tulos->spdef);
+    $pokemon->setSpd($tulos->spd);
+    $pokemon->setIVs(array($tulos->hpiv, $tulos->atkiv, $tulos->defiv, $tulos->spatkiv, $tulos->spdefiv, $tulos->spdiv));
+    $pokemon->setEVs(array($tulos->hpev, $tulos->atkev, $tulos->defev, $tulos->spatkev, $tulos->spdefev, $tulos->spdev));
+    $pokemon->setNature($tulos->nature);
+    $pokemon->setKommentti($tulos->kommentti);
+    return $pokemon;
 }

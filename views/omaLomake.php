@@ -100,7 +100,7 @@
                         <?php if ($data->otsikko === 'Muokkaa' || !empty($data->virheet)) : ?>
                             <option selected ="<?php echo $value; ?>"><?php echo $value; ?></option>
                         <?php endif; ?>
-                        <?php for ($x = 0; $x <= 255; $x++) : ?>
+                        <?php for ($x = 0; $x <= 252; $x++) : ?>
                             <option value = "<?php echo $x; ?>"><?php echo $x; ?></option>
                         <?php endfor; ?>
 
